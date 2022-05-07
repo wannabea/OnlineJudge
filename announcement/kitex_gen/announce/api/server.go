@@ -3,11 +3,11 @@ package api
 
 import (
 	"github.com/cloudwego/kitex/server"
-	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announce"
 )
 
 // NewServer creates a server.Server with the given handler and options.
-func NewServer(handler announcement.Api, opts ...server.Option) server.Server {
+func NewServer(handler announce.Api, opts ...server.Option) server.Server {
 	var options []server.Option
 
 	options = append(options, opts...)

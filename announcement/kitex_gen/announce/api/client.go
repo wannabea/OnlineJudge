@@ -6,13 +6,13 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/client/callopt"
-	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announce"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	GetAnnouncementById(ctx context.Context, req *announcement.AnnounceRequest, callOptions ...callopt.Option) (r *announcement.AnnounceResponse, err error)
-	GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announcement.AnnounceRequest, err error)
+	GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest, callOptions ...callopt.Option) (r *announce.AnnounceResponse, err error)
+	GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announce.AnnounceRequest, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -44,12 +44,12 @@ type kApiClient struct {
 	*kClient
 }
 
-func (p *kApiClient) GetAnnouncementById(ctx context.Context, req *announcement.AnnounceRequest, callOptions ...callopt.Option) (r *announcement.AnnounceResponse, err error) {
+func (p *kApiClient) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest, callOptions ...callopt.Option) (r *announce.AnnounceResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetAnnouncementById(ctx, req)
 }
 
-func (p *kApiClient) GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announcement.AnnounceRequest, err error) {
+func (p *kApiClient) GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announce.AnnounceRequest, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetAllAnnouncements(ctx)
 }

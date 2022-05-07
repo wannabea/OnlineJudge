@@ -6,7 +6,7 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
-	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announce"
 )
 
 func serviceInfo() *kitex.ServiceInfo {
@@ -17,13 +17,13 @@ var apiServiceInfo = NewServiceInfo()
 
 func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "Api"
-	handlerType := (*announcement.Api)(nil)
+	handlerType := (*announce.Api)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"GetAnnouncementById": kitex.NewMethodInfo(getAnnouncementByIdHandler, newApiGetAnnouncementByIdArgs, newApiGetAnnouncementByIdResult, false),
 		"GetAllAnnouncements": kitex.NewMethodInfo(getAllAnnouncementsHandler, newApiGetAllAnnouncementsArgs, newApiGetAllAnnouncementsResult, false),
 	}
 	extra := map[string]interface{}{
-		"PackageName": "announcement",
+		"PackageName": "announce",
 	}
 	svcInfo := &kitex.ServiceInfo{
 		ServiceName:     serviceName,
@@ -37,9 +37,9 @@ func NewServiceInfo() *kitex.ServiceInfo {
 }
 
 func getAnnouncementByIdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*announcement.ApiGetAnnouncementByIdArgs)
-	realResult := result.(*announcement.ApiGetAnnouncementByIdResult)
-	success, err := handler.(announcement.Api).GetAnnouncementById(ctx, realArg.Req)
+	realArg := arg.(*announce.ApiGetAnnouncementByIdArgs)
+	realResult := result.(*announce.ApiGetAnnouncementByIdResult)
+	success, err := handler.(announce.Api).GetAnnouncementById(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
@@ -47,17 +47,17 @@ func getAnnouncementByIdHandler(ctx context.Context, handler interface{}, arg, r
 	return nil
 }
 func newApiGetAnnouncementByIdArgs() interface{} {
-	return announcement.NewApiGetAnnouncementByIdArgs()
+	return announce.NewApiGetAnnouncementByIdArgs()
 }
 
 func newApiGetAnnouncementByIdResult() interface{} {
-	return announcement.NewApiGetAnnouncementByIdResult()
+	return announce.NewApiGetAnnouncementByIdResult()
 }
 
 func getAllAnnouncementsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 
-	realResult := result.(*announcement.ApiGetAllAnnouncementsResult)
-	success, err := handler.(announcement.Api).GetAllAnnouncements(ctx)
+	realResult := result.(*announce.ApiGetAllAnnouncementsResult)
+	success, err := handler.(announce.Api).GetAllAnnouncements(ctx)
 	if err != nil {
 		return err
 	}
@@ -65,11 +65,11 @@ func getAllAnnouncementsHandler(ctx context.Context, handler interface{}, arg, r
 	return nil
 }
 func newApiGetAllAnnouncementsArgs() interface{} {
-	return announcement.NewApiGetAllAnnouncementsArgs()
+	return announce.NewApiGetAllAnnouncementsArgs()
 }
 
 func newApiGetAllAnnouncementsResult() interface{} {
-	return announcement.NewApiGetAllAnnouncementsResult()
+	return announce.NewApiGetAllAnnouncementsResult()
 }
 
 type kClient struct {
@@ -82,19 +82,19 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) GetAnnouncementById(ctx context.Context, req *announcement.AnnounceRequest) (r *announcement.AnnounceResponse, err error) {
-	var _args announcement.ApiGetAnnouncementByIdArgs
+func (p *kClient) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest) (r *announce.AnnounceResponse, err error) {
+	var _args announce.ApiGetAnnouncementByIdArgs
 	_args.Req = req
-	var _result announcement.ApiGetAnnouncementByIdResult
+	var _result announce.ApiGetAnnouncementByIdResult
 	if err = p.c.Call(ctx, "GetAnnouncementById", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetAllAnnouncements(ctx context.Context) (r []*announcement.AnnounceRequest, err error) {
-	var _args announcement.ApiGetAllAnnouncementsArgs
-	var _result announcement.ApiGetAllAnnouncementsResult
+func (p *kClient) GetAllAnnouncements(ctx context.Context) (r []*announce.AnnounceRequest, err error) {
+	var _args announce.ApiGetAllAnnouncementsArgs
+	var _result announce.ApiGetAllAnnouncementsResult
 	if err = p.c.Call(ctx, "GetAllAnnouncements", &_args, &_result); err != nil {
 		return
 	}

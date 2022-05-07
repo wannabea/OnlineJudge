@@ -7,8 +7,7 @@ import (
 
 	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
 
-	. "announcement/db"
-	"announcement/kitex_gen/announcement"
+	// . "github.com/wannabea/OnlineJudge/announcement/db"
 
 	_ "github.com/go-sql-driver/mysql"
 )

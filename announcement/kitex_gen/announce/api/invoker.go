@@ -4,11 +4,11 @@ package api
 
 import (
 	"github.com/cloudwego/kitex/server"
-	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announce"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.
-func NewInvoker(handler announcement.Api, opts ...server.Option) server.Invoker {
+func NewInvoker(handler announce.Api, opts ...server.Option) server.Invoker {
 	var options []server.Option
 
 	options = append(options, opts...)

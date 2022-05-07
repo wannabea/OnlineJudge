@@ -1,4 +1,4 @@
-namespace go announcement
+namespace go announce
 
 struct AnnounceRequest {
   1: i32 announce_id

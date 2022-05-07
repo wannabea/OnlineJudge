@@ -1,3 +1,3 @@
-module wannabea.oj.announcement
+module announcement
 
 go 1.18

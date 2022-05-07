@@ -5,12 +5,12 @@ struct AnnounceRequest {
 }
 
 struct AnnounceResponse {
-  1: string title
-  2: string userName
-  3: string content
-  4: string create_time
-  5: string last_update_time
-  6: i32 announce_id
+  1: i32 announceId
+  2: string title
+  3: string userName
+  4: string content
+  5: string create_time
+  6: string last_update_time
 }
 
 service Api {

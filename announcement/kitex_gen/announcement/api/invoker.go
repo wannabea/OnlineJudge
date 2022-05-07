@@ -3,8 +3,8 @@
 package api
 
 import (
-	"github.com/OnlineJudge/announcement/kitex_gen/announcement"
 	"github.com/cloudwego/kitex/server"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.

@@ -170,16 +170,20 @@ func (p *AnnounceRequest) Field1DeepEqual(src int32) bool {
 }
 
 type AnnounceResponse struct {
-	Title          string `thrift:"title,1" json:"title"`
-	UserName       string `thrift:"userName,2" json:"userName"`
-	Content        string `thrift:"content,3" json:"content"`
-	CreateTime     string `thrift:"create_time,4" json:"create_time"`
-	LastUpdateTime string `thrift:"last_update_time,5" json:"last_update_time"`
-	AnnounceId     int32  `thrift:"announce_id,6" json:"announce_id"`
+	AnnounceId     int32  `thrift:"announceId,1" json:"announceId"`
+	Title          string `thrift:"title,2" json:"title"`
+	UserName       string `thrift:"userName,3" json:"userName"`
+	Content        string `thrift:"content,4" json:"content"`
+	CreateTime     string `thrift:"create_time,5" json:"create_time"`
+	LastUpdateTime string `thrift:"last_update_time,6" json:"last_update_time"`
 }
 
 func NewAnnounceResponse() *AnnounceResponse {
 	return &AnnounceResponse{}
+}
+
+func (p *AnnounceResponse) GetAnnounceId() (v int32) {
+	return p.AnnounceId
 }
 
 func (p *AnnounceResponse) GetTitle() (v string) {
@@ -201,9 +205,8 @@ func (p *AnnounceResponse) GetCreateTime() (v string) {
 func (p *AnnounceResponse) GetLastUpdateTime() (v string) {
 	return p.LastUpdateTime
 }
-
-func (p *AnnounceResponse) GetAnnounceId() (v int32) {
-	return p.AnnounceId
+func (p *AnnounceResponse) SetAnnounceId(val int32) {
+	p.AnnounceId = val
 }
 func (p *AnnounceResponse) SetTitle(val string) {
 	p.Title = val
@@ -220,17 +223,14 @@ func (p *AnnounceResponse) SetCreateTime(val string) {
 func (p *AnnounceResponse) SetLastUpdateTime(val string) {
 	p.LastUpdateTime = val
 }
-func (p *AnnounceResponse) SetAnnounceId(val int32) {
-	p.AnnounceId = val
-}
 
 var fieldIDToName_AnnounceResponse = map[int16]string{
-	1: "title",
-	2: "userName",
-	3: "content",
-	4: "create_time",
-	5: "last_update_time",
-	6: "announce_id",
+	1: "announceId",
+	2: "title",
+	3: "userName",
+	4: "content",
+	5: "create_time",
+	6: "last_update_time",
 }
 
 func (p *AnnounceResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -253,7 +253,7 @@ func (p *AnnounceResponse) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I32 {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -303,7 +303,7 @@ func (p *AnnounceResponse) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 6:
-			if fieldTypeId == thrift.I32 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField6(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -343,10 +343,10 @@ ReadStructEndError:
 }
 
 func (p *AnnounceResponse) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	if v, err := iprot.ReadI32(); err != nil {
 		return err
 	} else {
-		p.Title = v
+		p.AnnounceId = v
 	}
 	return nil
 }
@@ -355,7 +355,7 @@ func (p *AnnounceResponse) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.UserName = v
+		p.Title = v
 	}
 	return nil
 }
@@ -364,7 +364,7 @@ func (p *AnnounceResponse) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.Content = v
+		p.UserName = v
 	}
 	return nil
 }
@@ -373,7 +373,7 @@ func (p *AnnounceResponse) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.CreateTime = v
+		p.Content = v
 	}
 	return nil
 }
@@ -382,16 +382,16 @@ func (p *AnnounceResponse) ReadField5(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.LastUpdateTime = v
+		p.CreateTime = v
 	}
 	return nil
 }
 
 func (p *AnnounceResponse) ReadField6(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI32(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.AnnounceId = v
+		p.LastUpdateTime = v
 	}
 	return nil
 }
@@ -446,10 +446,10 @@ WriteStructEndError:
 }
 
 func (p *AnnounceResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("title", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("announceId", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Title); err != nil {
+	if err := oprot.WriteI32(p.AnnounceId); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -463,10 +463,10 @@ WriteFieldEndError:
 }
 
 func (p *AnnounceResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("userName", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("title", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.UserName); err != nil {
+	if err := oprot.WriteString(p.Title); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -480,10 +480,10 @@ WriteFieldEndError:
 }
 
 func (p *AnnounceResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("content", thrift.STRING, 3); err != nil {
+	if err = oprot.WriteFieldBegin("userName", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Content); err != nil {
+	if err := oprot.WriteString(p.UserName); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -497,10 +497,10 @@ WriteFieldEndError:
 }
 
 func (p *AnnounceResponse) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("create_time", thrift.STRING, 4); err != nil {
+	if err = oprot.WriteFieldBegin("content", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.CreateTime); err != nil {
+	if err := oprot.WriteString(p.Content); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -514,10 +514,10 @@ WriteFieldEndError:
 }
 
 func (p *AnnounceResponse) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("last_update_time", thrift.STRING, 5); err != nil {
+	if err = oprot.WriteFieldBegin("create_time", thrift.STRING, 5); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.LastUpdateTime); err != nil {
+	if err := oprot.WriteString(p.CreateTime); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -531,10 +531,10 @@ WriteFieldEndError:
 }
 
 func (p *AnnounceResponse) writeField6(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("announce_id", thrift.I32, 6); err != nil {
+	if err = oprot.WriteFieldBegin("last_update_time", thrift.STRING, 6); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI32(p.AnnounceId); err != nil {
+	if err := oprot.WriteString(p.LastUpdateTime); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -560,65 +560,65 @@ func (p *AnnounceResponse) DeepEqual(ano *AnnounceResponse) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.Title) {
+	if !p.Field1DeepEqual(ano.AnnounceId) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.UserName) {
+	if !p.Field2DeepEqual(ano.Title) {
 		return false
 	}
-	if !p.Field3DeepEqual(ano.Content) {
+	if !p.Field3DeepEqual(ano.UserName) {
 		return false
 	}
-	if !p.Field4DeepEqual(ano.CreateTime) {
+	if !p.Field4DeepEqual(ano.Content) {
 		return false
 	}
-	if !p.Field5DeepEqual(ano.LastUpdateTime) {
+	if !p.Field5DeepEqual(ano.CreateTime) {
 		return false
 	}
-	if !p.Field6DeepEqual(ano.AnnounceId) {
+	if !p.Field6DeepEqual(ano.LastUpdateTime) {
 		return false
 	}
 	return true
 }
 
-func (p *AnnounceResponse) Field1DeepEqual(src string) bool {
+func (p *AnnounceResponse) Field1DeepEqual(src int32) bool {
 
-	if strings.Compare(p.Title, src) != 0 {
+	if p.AnnounceId != src {
 		return false
 	}
 	return true
 }
 func (p *AnnounceResponse) Field2DeepEqual(src string) bool {
 
-	if strings.Compare(p.UserName, src) != 0 {
+	if strings.Compare(p.Title, src) != 0 {
 		return false
 	}
 	return true
 }
 func (p *AnnounceResponse) Field3DeepEqual(src string) bool {
 
-	if strings.Compare(p.Content, src) != 0 {
+	if strings.Compare(p.UserName, src) != 0 {
 		return false
 	}
 	return true
 }
 func (p *AnnounceResponse) Field4DeepEqual(src string) bool {
 
-	if strings.Compare(p.CreateTime, src) != 0 {
+	if strings.Compare(p.Content, src) != 0 {
 		return false
 	}
 	return true
 }
 func (p *AnnounceResponse) Field5DeepEqual(src string) bool {
 
-	if strings.Compare(p.LastUpdateTime, src) != 0 {
+	if strings.Compare(p.CreateTime, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *AnnounceResponse) Field6DeepEqual(src int32) bool {
+func (p *AnnounceResponse) Field6DeepEqual(src string) bool {
 
-	if p.AnnounceId != src {
+	if strings.Compare(p.LastUpdateTime, src) != 0 {
 		return false
 	}
 	return true

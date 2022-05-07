@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RUN_NAME="abc.oj.announcement"
+RUN_NAME="wannabea.oj.announcement"
 
 mkdir -p output/bin
 cp script/* output/

@@ -2,17 +2,19 @@ package main
 
 import (
 	"context"
-	"database/sql"
-	"strconv"
 	"fmt"
-	
-	"github.com/OnlineJudge/announcement/kitex_gen/announcement"
+	"strconv"
+
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
+
+	. "announcement/db"
+	"announcement/kitex_gen/announcement"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
 // ApiImpl implements the last service interface defined in the IDL.
 type ApiImpl struct{}
-var db *sql.DB
 
 // GetAnnouncementById implements the ApiImpl interface.
 

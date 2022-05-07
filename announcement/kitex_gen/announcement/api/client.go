@@ -4,9 +4,9 @@ package api
 
 import (
 	"context"
-	"github.com/OnlineJudge/announcement/kitex_gen/announcement"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/client/callopt"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.

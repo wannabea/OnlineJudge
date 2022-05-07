@@ -4,9 +4,9 @@ package api
 
 import (
 	"context"
-	"github.com/OnlineJudge/announcement/kitex_gen/announcement"
 	"github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
 )
 
 func serviceInfo() *kitex.ServiceInfo {

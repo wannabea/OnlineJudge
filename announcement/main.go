@@ -1,9 +1,9 @@
 package main
 
 import (
-	announcement "github.com/OnlineJudge/announcement/kitex_gen/announcement/api"
+	announcement "github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement/api"
 	"log"
-	_ "github.com/OnlineJudge/announcement/db"
+	_ "announcement/db"
 )
 
 func main() {

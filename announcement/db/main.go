@@ -8,18 +8,18 @@ import (
 )
 
 // 定义一个全局对象db
-var db *sql.DB
+var Db *sql.DB
 
 func initDB() (err error) {
 	// DSN:Data Source Name
 	dsn := "oj:onlinejudge2022@tcp(127.0.0.1:3306)/sql_test?charset=utf8mb4&parseTime=True"
 
-	db, err = sql.Open("onlinejudge", dsn)
+	Db, err = sql.Open("onlinejudge", dsn)
 	if err != nil {
 		return err
 	}
 
-	err = db.Ping()
+	err = Db.Ping()
 	if err != nil {
 		return err
 	}

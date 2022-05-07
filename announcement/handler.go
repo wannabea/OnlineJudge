@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement"
+	"github.com/wannabea/OnlineJudge/announcement/kitex_gen/announce"
 
-	// . "github.com/wannabea/OnlineJudge/announcement/db"
+	. "github.com/wannabea/OnlineJudge/announcement/db"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -26,28 +26,28 @@ type announcementFromDb struct {
 	LastUpdateTime int
 }
 
-func (s *ApiImpl) GetAnnouncementById(ctx context.Context, req *announcement.AnnounceRequest) (resp *announcement.AnnounceResponse, err error) {
-	var announce announcementFromDb
+func (s *ApiImpl) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest) (resp *announce.AnnounceResponse, err error) {
+	var announceItem announcementFromDb
 	sqlStr := "select * from announcement where id=?"
-	err := db.QueryRow(sqlStr, 1).Scan(&announce.AnnounceId, &announce.Title, &announce.UserId, &announce.Content, &announce.CreateTime, &announce.LastUpdateTime)
+	err = Db.QueryRow(sqlStr, 1).Scan(&announceItem.AnnounceId, &announceItem.Title, &announceItem.UserId, &announceItem.Content, &announceItem.CreateTime, &announceItem.LastUpdateTime)
 
 	if err != nil {
 		fmt.Printf("scan failed, err:%v\n", err)
 		return
 	}
-	resp = &announcement.AnnounceResponse{
+	resp = &announce.AnnounceResponse{
 		AnnounceId:     req.AnnounceId,
-		Title:          announce.Title,
-		UserName:       strconv.Itoa(announce.UserId),
-		Content:        announce.Content,
-		CreateTime:     strconv.Itoa(announce.CreateTime),
-		LastUpdateTime: strconv.Itoa(announce.LastUpdateTime),
+		Title:          announceItem.Title,
+		UserName:       strconv.Itoa(announceItem.UserId),
+		Content:        announceItem.Content,
+		CreateTime:     strconv.Itoa(announceItem.CreateTime),
+		LastUpdateTime: strconv.Itoa(announceItem.LastUpdateTime),
 	}
 	return
 }
 
 // GetAllAnnouncements implements the ApiImpl interface.
-func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announcement.AnnounceRequest, err error) {
+func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announce.AnnounceRequest, err error) {
 	// TODO: Your code here...
 	return
 }

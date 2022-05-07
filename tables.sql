@@ -16,7 +16,7 @@ INSERT INTO announcements (title, user_id, content, create_time, last_update_tim
 CREATE TABLE problems (			-- 题目表
 	`problem_id` INT AUTO_INCREMENT,		-- 主键id
 	`title` varchar(50) NOT NULL,			-- 问题title
-	`user_id` INT NOT NULL,					-- 创建者id
+	`title` INT NOT NULL,					-- 创建者id
 	`is_visible` INT,						-- 是否可见
 	`configs` VARCHAR(3000) NOT NULL,		-- 配置信息（题目的时间限制空间限制等等）json格式
 	`tags` 	VARCHAR(300) NOT NULL,			-- 标签集合 json格式

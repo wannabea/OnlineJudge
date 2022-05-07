@@ -1,13 +1,21 @@
 package main
 
 import (
-	announcement "github.com/wannabea/OnlineJudge/announcement/kitex_gen/announcement/api"
 	"log"
-	// _ "github.com/wannabea/OnlineJudge/announcement/db"
+	"net"
+
+	"github.com/cloudwego/kitex/server"
+	_ "github.com/wannabea/OnlineJudge/announcement/db"
+	announce "github.com/wannabea/OnlineJudge/announcement/kitex_gen/announce/api"
 )
 
 func main() {
-	svr := announcement.NewServer(new(ApiImpl))
+	addr, _ := net.ResolveTCPAddr("tcp", ":9091")
+
+	var opts []server.Option
+	opts = append(opts, server.WithServiceAddr(addr))
+
+	svr := announce.NewServer(new(ApiImpl),opts...)
 
 	err := svr.Run()
 

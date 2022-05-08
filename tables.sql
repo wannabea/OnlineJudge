@@ -72,27 +72,8 @@ CREATE TABLE users (						-- 用户表
 	`is_admin`	INT NOT NULL
 )
 
-
-
-CREATE TABLE announcements (
-	`announce_id` INT PRIMARY KEY AUTO_INCREMENT,		
-	`title` VARCHAR(50) NOT NULL,		
-	`user_id` INT NOT NULL,				
-	`content` varchar(10000),			
-	`create_time` INT NOT NULL,			
-	`last_update_time` INT NOT NULL		
-)
-
-CREATE TABLE users (						
-	`user_id` INT PRIMARY KEY AUTO_INCREMENT,			
-	`user_name` varchar(30) ,			
-	`passwd`	varchar(100) NOT NULL,		
-	`create_time` INT NOT NULL,				
-	`last_login_time` INT NOT NULL,			
-	`real_name` varchar(30),				
-	`email` varchar(30) NOT NULL,			
-	`last_login_ip` varchar(30) NOT NULL,
-	`sign_content` varchar(100), 			
-	`is_admin`	INT NOT NULL); 
-
 INSERT INTO users (user_name, passwd, create_time, last_login_time, real_name, email, last_login_ip, sign_content, is_admin) VALUES("wk","123456",1651892698,1651892698,"wangkai", "wk.9070@qq.com","1.1.1.1","no",1);
+
+
+
+

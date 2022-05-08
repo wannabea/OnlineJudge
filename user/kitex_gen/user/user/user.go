@@ -22,8 +22,8 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"GetNameById":    kitex.NewMethodInfo(getNameByIdHandler, newUserGetNameByIdArgs, newUserGetNameByIdResult, false),
 		"GetInfoById":    kitex.NewMethodInfo(getInfoByIdHandler, newUserGetInfoByIdArgs, newUserGetInfoByIdResult, false),
 		"InsertUser":     kitex.NewMethodInfo(insertUserHandler, newUserInsertUserArgs, newUserInsertUserResult, false),
-		"updateUserInfo": kitex.NewMethodInfo(updateUserInfoHandler, newUserUpdateUserInfoArgs, newUserUpdateUserInfoResult, false),
-		"checkUserName":  kitex.NewMethodInfo(checkUserNameHandler, newUserCheckUserNameArgs, newUserCheckUserNameResult, false),
+		"UpdateUserInfo": kitex.NewMethodInfo(updateUserInfoHandler, newUserUpdateUserInfoArgs, newUserUpdateUserInfoResult, false),
+		"CheckUserName":  kitex.NewMethodInfo(checkUserNameHandler, newUserCheckUserNameArgs, newUserCheckUserNameResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "user",
@@ -42,7 +42,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 func getNameByIdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*user.UserGetNameByIdArgs)
 	realResult := result.(*user.UserGetNameByIdResult)
-	success, err := handler.(user.User).GetNameById(ctx, realArg.UserId)
+	success, err := handler.(user.User).GetNameById(ctx, realArg.UserId, realArg.Idt)
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ func newUserGetNameByIdResult() interface{} {
 func getInfoByIdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*user.UserGetInfoByIdArgs)
 	realResult := result.(*user.UserGetInfoByIdResult)
-	success, err := handler.(user.User).GetInfoById(ctx, realArg.UserId)
+	success, err := handler.(user.User).GetInfoById(ctx, realArg.UserId, realArg.Idt)
 	if err != nil {
 		return err
 	}
@@ -78,7 +78,7 @@ func newUserGetInfoByIdResult() interface{} {
 func insertUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*user.UserInsertUserArgs)
 	realResult := result.(*user.UserInsertUserResult)
-	success, err := handler.(user.User).InsertUser(ctx, realArg.Info)
+	success, err := handler.(user.User).InsertUser(ctx, realArg.Info, realArg.Idt)
 	if err != nil {
 		return err
 	}
@@ -96,7 +96,7 @@ func newUserInsertUserResult() interface{} {
 func updateUserInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*user.UserUpdateUserInfoArgs)
 	realResult := result.(*user.UserUpdateUserInfoResult)
-	success, err := handler.(user.User).UpdateUserInfo(ctx, realArg.Info)
+	success, err := handler.(user.User).UpdateUserInfo(ctx, realArg.Id, realArg.Info, realArg.Idt)
 	if err != nil {
 		return err
 	}
@@ -139,9 +139,10 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) GetNameById(ctx context.Context, userId int32) (r string, err error) {
+func (p *kClient) GetNameById(ctx context.Context, userId int32, idt *user.Identity) (r string, err error) {
 	var _args user.UserGetNameByIdArgs
 	_args.UserId = userId
+	_args.Idt = idt
 	var _result user.UserGetNameByIdResult
 	if err = p.c.Call(ctx, "GetNameById", &_args, &_result); err != nil {
 		return
@@ -149,9 +150,10 @@ func (p *kClient) GetNameById(ctx context.Context, userId int32) (r string, err 
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetInfoById(ctx context.Context, userId int32) (r *user.UserInfo, err error) {
+func (p *kClient) GetInfoById(ctx context.Context, userId int32, idt *user.Identity) (r *user.UserInfo, err error) {
 	var _args user.UserGetInfoByIdArgs
 	_args.UserId = userId
+	_args.Idt = idt
 	var _result user.UserGetInfoByIdResult
 	if err = p.c.Call(ctx, "GetInfoById", &_args, &_result); err != nil {
 		return
@@ -159,9 +161,10 @@ func (p *kClient) GetInfoById(ctx context.Context, userId int32) (r *user.UserIn
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) InsertUser(ctx context.Context, info *user.InsertUserInfo) (r int32, err error) {
+func (p *kClient) InsertUser(ctx context.Context, info *user.InsertUserInfo, idt *user.Identity) (r int32, err error) {
 	var _args user.UserInsertUserArgs
 	_args.Info = info
+	_args.Idt = idt
 	var _result user.UserInsertUserResult
 	if err = p.c.Call(ctx, "InsertUser", &_args, &_result); err != nil {
 		return
@@ -169,11 +172,13 @@ func (p *kClient) InsertUser(ctx context.Context, info *user.InsertUserInfo) (r 
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UpdateUserInfo(ctx context.Context, info *user.InsertUserInfo) (r int32, err error) {
+func (p *kClient) UpdateUserInfo(ctx context.Context, id int32, info *user.InsertUserInfo, idt *user.Identity) (r int32, err error) {
 	var _args user.UserUpdateUserInfoArgs
+	_args.Id = id
 	_args.Info = info
+	_args.Idt = idt
 	var _result user.UserUpdateUserInfoResult
-	if err = p.c.Call(ctx, "updateUserInfo", &_args, &_result); err != nil {
+	if err = p.c.Call(ctx, "UpdateUserInfo", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -183,7 +188,7 @@ func (p *kClient) CheckUserName(ctx context.Context, name string) (r int32, err 
 	var _args user.UserCheckUserNameArgs
 	_args.Name = name
 	var _result user.UserCheckUserNameResult
-	if err = p.c.Call(ctx, "checkUserName", &_args, &_result); err != nil {
+	if err = p.c.Call(ctx, "CheckUserName", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

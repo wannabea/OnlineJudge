@@ -53,7 +53,7 @@ CREATE TABLE contests (						-- 比赛表
 	`create_time` INT NOT NULL,				-- 创建时间	
 	`last_update_time` INT NOT NULL,		-- 最后更新时间
 	`is_lock` INT NOT NULL,					-- 是否加锁
-	`passewd` varchar(30),					-- 密码
+	`passewd` varchar(100),					-- 密码
 	`hints` varchar(300000),				-- 提示信息
 	`problems` varchar(3000),				-- 问题列表 json集合
 	`ranking` varchar(300000)				-- 比赛排行榜 json列表
@@ -61,7 +61,7 @@ CREATE TABLE contests (						-- 比赛表
 
 CREATE TABLE users (						-- 用户表
 	`user_id` INT AUTO_INCREMENT,			-- 用户id
-	`user_name` INT PRIMARY KEY,			-- 用户名
+	`user_name` varchar(30) PRIMARY KEY,			-- 用户名
 	`passwd`	varchar(100) NOT NULL,		-- 密码 MD5
 	`create_time` INT NOT NULL,				-- 注册时间
 	`last_login_time` INT NOT NULL,			-- 最后登陆时间
@@ -73,7 +73,3 @@ CREATE TABLE users (						-- 用户表
 )
 
 INSERT INTO users (user_name, passwd, create_time, last_login_time, real_name, email, last_login_ip, sign_content, is_admin) VALUES("wk","123456",1651892698,1651892698,"wangkai", "wk.9070@qq.com","1.1.1.1","no",1);
-
-
-
-

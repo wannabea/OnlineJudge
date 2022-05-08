@@ -1,5 +1,11 @@
 namespace go user
 
+struct identity {
+	1: optional i32 userId
+	2: optional string address
+	3: optional i32 isAdmin
+}
+
 struct userInfo {
 	1: i32 userId
 	2: string userName
@@ -23,9 +29,10 @@ struct insertUserInfo {
 }
 
 service User { 
-	string GetNameById(1: i32 userId)
-	userInfo GetInfoById(1: i32 userId)
-	i32 InsertUser(1: insertUserInfo info)
-	i32 updateUserInfo(1: insertUserInfo info)
-	i32 checkUserName(1: string name)
+	string GetNameById(1: i32 userId, 2: identity)	// 根据id查询用户名
+	userInfo GetInfoById(1: i32 userId, 2: identity)	// 根据id查询用户所有信息
+	i32 InsertUser(1: insertUserInfo info, 2: identity)	// 插入用户
+	i32 updateUserInfo(1: insertUserInfo info, 2: identity)	// 更新用户信息
+	i32 checkUserName(1: string name)					//判断用户名是否被占用
+	
 }

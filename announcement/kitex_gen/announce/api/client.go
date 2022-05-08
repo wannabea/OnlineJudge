@@ -11,8 +11,12 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest, callOptions ...callopt.Option) (r *announce.AnnounceResponse, err error)
-	GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announce.AnnounceResponse, err error)
+	GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest, callOptions ...callopt.Option) (r *announce.AnnounceInfo, err error)
+	GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announce.AnnounceInfo, err error)
+	InsertAnnouncement(ctx context.Context, info *announce.UpdateAnouncementRequest, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error)
+	UpdateAnnouncement(ctx context.Context, announceId int32, info *announce.UpdateAnouncementRequest, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error)
+	DeleteAnnouncement(ctx context.Context, id int32, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error)
+	HideAnnouncement(ctx context.Context, op int32, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -44,12 +48,32 @@ type kApiClient struct {
 	*kClient
 }
 
-func (p *kApiClient) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest, callOptions ...callopt.Option) (r *announce.AnnounceResponse, err error) {
+func (p *kApiClient) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest, callOptions ...callopt.Option) (r *announce.AnnounceInfo, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetAnnouncementById(ctx, req)
 }
 
-func (p *kApiClient) GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announce.AnnounceResponse, err error) {
+func (p *kApiClient) GetAllAnnouncements(ctx context.Context, callOptions ...callopt.Option) (r []*announce.AnnounceInfo, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetAllAnnouncements(ctx)
+}
+
+func (p *kApiClient) InsertAnnouncement(ctx context.Context, info *announce.UpdateAnouncementRequest, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.InsertAnnouncement(ctx, info, idt)
+}
+
+func (p *kApiClient) UpdateAnnouncement(ctx context.Context, announceId int32, info *announce.UpdateAnouncementRequest, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UpdateAnnouncement(ctx, announceId, info, idt)
+}
+
+func (p *kApiClient) DeleteAnnouncement(ctx context.Context, id int32, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteAnnouncement(ctx, id, idt)
+}
+
+func (p *kApiClient) HideAnnouncement(ctx context.Context, op int32, idt *announce.Identity, callOptions ...callopt.Option) (r int32, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.HideAnnouncement(ctx, op, idt)
 }

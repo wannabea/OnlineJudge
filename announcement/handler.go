@@ -45,7 +45,7 @@ func (s *ApiImpl) GetAnnouncementById(ctx context.Context, req *announce.Announc
 	timeLayout := "2022-01-01 00:01:02"
 	createTime := time.Unix(announceItem.CreateTime, 0).Format(timeLayout)
 	lastUpdateTime := time.Unix(announceItem.LastUpdateTime, 0).Format(timeLayout)
-	resp = &announce.AnnounceResponse{
+	resp = &announce.AnnounceInfo{
 		AnnounceId:     announceItem.AnnounceId,
 		Title:          announceItem.Title,
 		UserName:       userName,
@@ -58,7 +58,7 @@ func (s *ApiImpl) GetAnnouncementById(ctx context.Context, req *announce.Announc
 }
 
 // GetAllAnnouncements implements the ApiImpl interface.
-func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announce.AnnounceResponse, err error) {
+func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announce.AnnounceInfo, err error) {
 	sqlStr := "select * from announcements where visible=1"
 	rows, err := Db.Query(sqlStr)
 	defer rows.Close()
@@ -79,7 +79,7 @@ func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announce.Ann
 		timeLayout := "2022-01-01 00:01:02"
 		createTime := time.Unix(item.CreateTime, 0).Format(timeLayout)
 		lastUpdateTime := time.Unix(item.LastUpdateTime, 0).Format(timeLayout)
-		resp = append(resp, &announce.AnnounceResponse{
+		resp = append(resp, &announce.AnnounceInfo{
 			AnnounceId:     item.AnnounceId,
 			Title:          item.Title,
 			UserName:       userName,
@@ -91,4 +91,89 @@ func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announce.Ann
 	log.Println("[INFO] return announce.GetAllAnnouncements")
 
 	return
+}
+
+// InsertAnnouncement implements the ApiImpl interface.
+func (s *ApiImpl) InsertAnnouncement(ctx context.Context, info *announce.UpdateAnouncementRequest, idt *announce.Identity) (resp int32, err error) {
+	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+		log.Println("[ERROR] have no access")
+		return 0, nil
+	}
+	sqlStr := "INSERT INTO announcements SET (title=?, user_id=?, content=?, create_time=?, last_update_time=?, visible=?)"
+	ret, err := Db.Exec(sqlStr, info.Title, info.UserId, info.Content, info.CreateTime, info.LastUpdateTime, info.Visible)
+	if err != nil {
+		log.Printf("insert failed, err:%v\n", err)
+		return
+	}
+	theID, err := ret.LastInsertId() // 新插入数据的id
+	if err != nil {
+		log.Printf("get lastinsert ID failed, err:%v\n", err)
+		return
+	}
+	log.Printf("insert success, the id is %d.\n", theID)
+	return
+}
+
+// UpdateAnnouncement implements the ApiImpl interface.
+func (s *ApiImpl) UpdateAnnouncement(ctx context.Context, announceId int32, info *announce.UpdateAnouncementRequest, idt *announce.Identity) (resp int32, err error) {
+	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+		log.Println("[ERROR] have no access")
+		return 0, nil
+	}
+	sqlStr := "UPDATE announcements SET (title=?, user_id=?, content=?, create_time=?, last_update_time=?, visible=? where announce_id=?)"
+	ret, err := Db.Exec(sqlStr, info.Title, info.UserId, info.Content, info.CreateTime, info.LastUpdateTime, info.Visible, announceId)
+	if err != nil {
+		log.Printf("update failed, err:%v\n", err)
+		return 0, err
+	}
+	n, err := ret.RowsAffected() // 操作影响的行数
+	if err != nil {
+		log.Printf("get RowsAffected failed, err:%v\n", err)
+		return 0, err
+	}
+	log.Printf("update success, affected rows:%d\n", n)
+	return 1, nil
+}
+
+// DeleteAnnouncement implements the ApiImpl interface.
+func (s *ApiImpl) DeleteAnnouncement(ctx context.Context, id int32, idt *announce.Identity) (resp int32, err error) {
+	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+		log.Println("[ERROR] have no access")
+		return 0, nil
+	}
+	sqlStr := "DELETE  FROM announcements where announce_id=?)"
+	ret, err := Db.Exec(sqlStr, id)
+	if err != nil {
+		log.Printf("delete failed, err:%v\n", err)
+		return 0, err
+	}
+	n, err := ret.RowsAffected() // 操作影响的行数
+	if err != nil {
+		log.Printf("get RowsAffected failed, err:%v\n", err)
+		return 0, err
+	}
+	log.Printf("delete success, affected rows:%d\n", n)
+
+	return 1, nil
+}
+
+// HideAnnouncement implements the ApiImpl interface.
+func (s *ApiImpl) HideAnnouncement(ctx context.Context, op int32, idt *announce.Identity) (resp int32, err error) {
+	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+		log.Println("[ERROR] have no access")
+		return 0, nil
+	}
+	sqlStr := "UPDATE announcements SET (visible=?)"
+	ret, err := Db.Exec(sqlStr, op)
+	if err != nil {
+		log.Printf("update failed, err:%v\n", err)
+		return 0, err
+	}
+	n, err := ret.RowsAffected() // 操作影响的行数
+	if err != nil {
+		log.Printf("get RowsAffected failed, err:%v\n", err)
+		return 0, err
+	}
+	log.Printf("update success, affected rows:%d\n", n)
+	return 1, nil
 }

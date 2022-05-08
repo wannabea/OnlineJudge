@@ -934,9 +934,9 @@ func (p *ApiGetAllAnnouncementsResult) FastReadField0(buf []byte) (int, error) {
 	if err != nil {
 		return offset, err
 	}
-	p.Success = make([]*AnnounceRequest, 0, size)
+	p.Success = make([]*AnnounceResponse, 0, size)
 	for i := 0; i < size; i++ {
-		_elem := NewAnnounceRequest()
+		_elem := NewAnnounceResponse()
 		if l, err := _elem.FastRead(buf[offset:]); err != nil {
 			return offset, err
 		} else {

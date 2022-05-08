@@ -627,7 +627,7 @@ func (p *AnnounceResponse) Field6DeepEqual(src string) bool {
 type Api interface {
 	GetAnnouncementById(ctx context.Context, req *AnnounceRequest) (r *AnnounceResponse, err error)
 
-	GetAllAnnouncements(ctx context.Context) (r []*AnnounceRequest, err error)
+	GetAllAnnouncements(ctx context.Context) (r []*AnnounceResponse, err error)
 }
 
 type ApiClient struct {
@@ -666,7 +666,7 @@ func (p *ApiClient) GetAnnouncementById(ctx context.Context, req *AnnounceReques
 	return _result.GetSuccess(), nil
 }
 
-func (p *ApiClient) GetAllAnnouncements(ctx context.Context) (r []*AnnounceRequest, err error) {
+func (p *ApiClient) GetAllAnnouncements(ctx context.Context) (r []*AnnounceResponse, err error) {
 	var _args ApiGetAllAnnouncementsArgs
 	var _result ApiGetAllAnnouncementsResult
 	if err = p.Client_().Call(ctx, "GetAllAnnouncements", &_args, &_result); err != nil {
@@ -784,7 +784,7 @@ func (p *apiProcessorGetAllAnnouncements) Process(ctx context.Context, seqId int
 	iprot.ReadMessageEnd()
 	var err2 error
 	result := ApiGetAllAnnouncementsResult{}
-	var retval []*AnnounceRequest
+	var retval []*AnnounceResponse
 	if retval, err2 = p.handler.GetAllAnnouncements(ctx); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetAllAnnouncements: "+err2.Error())
 		oprot.WriteMessageBegin("GetAllAnnouncements", thrift.EXCEPTION, seqId)
@@ -1242,23 +1242,23 @@ func (p *ApiGetAllAnnouncementsArgs) DeepEqual(ano *ApiGetAllAnnouncementsArgs) 
 }
 
 type ApiGetAllAnnouncementsResult struct {
-	Success []*AnnounceRequest `thrift:"success,0" json:"success,omitempty"`
+	Success []*AnnounceResponse `thrift:"success,0" json:"success,omitempty"`
 }
 
 func NewApiGetAllAnnouncementsResult() *ApiGetAllAnnouncementsResult {
 	return &ApiGetAllAnnouncementsResult{}
 }
 
-var ApiGetAllAnnouncementsResult_Success_DEFAULT []*AnnounceRequest
+var ApiGetAllAnnouncementsResult_Success_DEFAULT []*AnnounceResponse
 
-func (p *ApiGetAllAnnouncementsResult) GetSuccess() (v []*AnnounceRequest) {
+func (p *ApiGetAllAnnouncementsResult) GetSuccess() (v []*AnnounceResponse) {
 	if !p.IsSetSuccess() {
 		return ApiGetAllAnnouncementsResult_Success_DEFAULT
 	}
 	return p.Success
 }
 func (p *ApiGetAllAnnouncementsResult) SetSuccess(x interface{}) {
-	p.Success = x.([]*AnnounceRequest)
+	p.Success = x.([]*AnnounceResponse)
 }
 
 var fieldIDToName_ApiGetAllAnnouncementsResult = map[int16]string{
@@ -1333,9 +1333,9 @@ func (p *ApiGetAllAnnouncementsResult) ReadField0(iprot thrift.TProtocol) error 
 	if err != nil {
 		return err
 	}
-	p.Success = make([]*AnnounceRequest, 0, size)
+	p.Success = make([]*AnnounceResponse, 0, size)
 	for i := 0; i < size; i++ {
-		_elem := NewAnnounceRequest()
+		_elem := NewAnnounceResponse()
 		if err := _elem.Read(iprot); err != nil {
 			return err
 		}
@@ -1423,7 +1423,7 @@ func (p *ApiGetAllAnnouncementsResult) DeepEqual(ano *ApiGetAllAnnouncementsResu
 	return true
 }
 
-func (p *ApiGetAllAnnouncementsResult) Field0DeepEqual(src []*AnnounceRequest) bool {
+func (p *ApiGetAllAnnouncementsResult) Field0DeepEqual(src []*AnnounceResponse) bool {
 
 	if len(p.Success) != len(src) {
 		return false

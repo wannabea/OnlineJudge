@@ -7,11 +7,13 @@ CREATE TABLE announcements (	--公告表
 	`content` varchar(10000),				-- 内容文本
 	`create_time` INT NOT NULL,				-- 创建时间
 	`last_update_time` INT NOT NULL			-- 最后修改时间
+	`visible` INR NOT NULL					--  可见性 1 可见 0 不可见
 )
 
-INSERT INTO announcements (title, user_id, content, create_time, last_update_time) VALUES(
-	"测试公告1",1,"test",1651892698,1651892698
-)
+
+
+INSERT INTO announcements (title, user_id, content, create_time, last_update_time, visible) VALUES(
+	"测试公告1",1,"test",1651892698,1651892698,1);
 
 CREATE TABLE problems (			-- 题目表
 	`problem_id` INT AUTO_INCREMENT,		-- 主键id
@@ -65,8 +67,9 @@ CREATE TABLE users (						-- 用户表
 	`last_login_time` INT NOT NULL,			-- 最后登陆时间
 	`real_name` varchar(30),				-- 真实姓名
 	`email` varchar(30) NOT NULL,			-- email
-	`last_login_ip` NOT NULL,				-- 最后登录ip
-	`sign_content` varchar(100) 			-- 签名
+	`last_login_ip` varchar(30) NOT NULL,				-- 最后登录ip
+	`sign_content` varchar(100), 			-- 签名
+	`is_admin`	INT NOT NULL
 )
 
 
@@ -79,3 +82,17 @@ CREATE TABLE announcements (
 	`create_time` INT NOT NULL,			
 	`last_update_time` INT NOT NULL		
 )
+
+CREATE TABLE users (						
+	`user_id` INT PRIMARY KEY AUTO_INCREMENT,			
+	`user_name` varchar(30) ,			
+	`passwd`	varchar(100) NOT NULL,		
+	`create_time` INT NOT NULL,				
+	`last_login_time` INT NOT NULL,			
+	`real_name` varchar(30),				
+	`email` varchar(30) NOT NULL,			
+	`last_login_ip` varchar(30) NOT NULL,
+	`sign_content` varchar(100), 			
+	`is_admin`	INT NOT NULL); 
+
+INSERT INTO users (user_name, passwd, create_time, last_login_time, real_name, email, last_login_ip, sign_content, is_admin) VALUES("wk","123456",1651892698,1651892698,"wangkai", "wk.9070@qq.com","1.1.1.1","no",1);

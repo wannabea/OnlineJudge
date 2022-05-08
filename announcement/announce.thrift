@@ -15,6 +15,6 @@ struct AnnounceResponse {
 
 service Api {
     AnnounceResponse GetAnnouncementById (1: AnnounceRequest req)
-	list<AnnounceRequest> GetAllAnnouncements ()
+	list<AnnounceResponse> GetAllAnnouncements ()
 }
 

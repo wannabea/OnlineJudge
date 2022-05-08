@@ -92,7 +92,7 @@ func (p *kClient) GetAnnouncementById(ctx context.Context, req *announce.Announc
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetAllAnnouncements(ctx context.Context) (r []*announce.AnnounceRequest, err error) {
+func (p *kClient) GetAllAnnouncements(ctx context.Context) (r []*announce.AnnounceResponse, err error) {
 	var _args announce.ApiGetAllAnnouncementsArgs
 	var _result announce.ApiGetAllAnnouncementsResult
 	if err = p.c.Call(ctx, "GetAllAnnouncements", &_args, &_result); err != nil {

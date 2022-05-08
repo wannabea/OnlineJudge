@@ -14,10 +14,6 @@ type UserImpl struct{}
 
 // GetNameById implements the UserImpl interface.
 func (s *UserImpl) GetNameById(ctx context.Context, userId int32, idt *user.Identity) (resp string, err error) {
-	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
-		log.Println("[ERROR] have no access")
-		return 
-	}
 	sqlStr := "select user_name from users where user_id=?"
 	err = Db.QueryRow(sqlStr, userId).Scan(&resp)
 	if err != nil {
@@ -28,15 +24,27 @@ func (s *UserImpl) GetNameById(ctx context.Context, userId int32, idt *user.Iden
 	return
 }
 
+func checkAccess(id int32, idt user.Identity) int {
+	access := 0
+	if idt.UserId == id {
+		access = 1
+	} else if idt.IsAdmin == int32(1) {
+		access = 1
+	}
+	return access
+}
+
 // GetInfoById implements the UserImpl interface.
 func (s *UserImpl) GetInfoById(ctx context.Context, userId int32, idt *user.Identity) (resp *user.UserInfo, err error) {
-	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
-		log.Println("[ERROR] have no access")
-		return 
-	}
+	// if checkAccess(userId, *idt) == 0 {
+	// 	log.Println("[ERROR] have no access")
+	// 	return
+	// }
 	sqlStr := "select * from users where user_id=?"
-	err = Db.QueryRow(sqlStr, userId).Scan(&resp.UserId, &resp.UserName, &resp.Passwd, &resp.CreateTime, &resp.LastLoginTime, &resp.RealName, &resp.Email, &resp.LastLoginIp, &resp.SignContent, &resp.IsAdmin)
-
+	var item user.UserInfo
+	// err = Db.QueryRow(sqlStr, userId).Scan(&resp.UserId, &resp.UserName, &resp.Passwd, &resp.CreateTime, &resp.LastLoginTime, &resp.RealName, &resp.Email, &resp.LastLoginIp, &resp.SignContent, &resp.IsAdmin)
+	err = Db.QueryRow(sqlStr, userId).Scan(&item.UserId, &item.UserName, &item.Passwd, &item.CreateTime, &item.LastLoginTime, &item.RealName, &item.Email, &item.LastLoginIp, &item.SignContent, &item.IsAdmin)
+	resp = &item
 	if err != nil {
 		log.Printf("scan failed, err:%v\n", err)
 		return
@@ -47,7 +55,7 @@ func (s *UserImpl) GetInfoById(ctx context.Context, userId int32, idt *user.Iden
 
 // InsertUser implements the UserImpl interface.
 func (s *UserImpl) InsertUser(ctx context.Context, info *user.InsertUserInfo, idt *user.Identity) (resp int32, err error) {
-	// TODO: Your code here...
+	
 	return
 }
 

@@ -129,7 +129,8 @@ func (p *Identity) FastReadField1(buf []byte) (int, error) {
 		return offset, err
 	} else {
 		offset += l
-		p.UserId = &v
+
+		p.UserId = v
 
 	}
 	return offset, nil
@@ -142,7 +143,8 @@ func (p *Identity) FastReadField2(buf []byte) (int, error) {
 		return offset, err
 	} else {
 		offset += l
-		p.Address = &v
+
+		p.Address = v
 
 	}
 	return offset, nil
@@ -155,7 +157,8 @@ func (p *Identity) FastReadField3(buf []byte) (int, error) {
 		return offset, err
 	} else {
 		offset += l
-		p.IsAdmin = &v
+
+		p.IsAdmin = v
 
 	}
 	return offset, nil
@@ -194,67 +197,55 @@ func (p *Identity) BLength() int {
 
 func (p *Identity) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	if p.IsSetUserId() {
-		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "userId", thrift.I32, 1)
-		offset += bthrift.Binary.WriteI32(buf[offset:], *p.UserId)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "userId", thrift.I32, 1)
+	offset += bthrift.Binary.WriteI32(buf[offset:], p.UserId)
 
-		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	}
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
 }
 
 func (p *Identity) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	if p.IsSetAddress() {
-		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "address", thrift.STRING, 2)
-		offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, *p.Address)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "address", thrift.STRING, 2)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Address)
 
-		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	}
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
 }
 
 func (p *Identity) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	if p.IsSetIsAdmin() {
-		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "isAdmin", thrift.I32, 3)
-		offset += bthrift.Binary.WriteI32(buf[offset:], *p.IsAdmin)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "isAdmin", thrift.I32, 3)
+	offset += bthrift.Binary.WriteI32(buf[offset:], p.IsAdmin)
 
-		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	}
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
 }
 
 func (p *Identity) field1Length() int {
 	l := 0
-	if p.IsSetUserId() {
-		l += bthrift.Binary.FieldBeginLength("userId", thrift.I32, 1)
-		l += bthrift.Binary.I32Length(*p.UserId)
+	l += bthrift.Binary.FieldBeginLength("userId", thrift.I32, 1)
+	l += bthrift.Binary.I32Length(p.UserId)
 
-		l += bthrift.Binary.FieldEndLength()
-	}
+	l += bthrift.Binary.FieldEndLength()
 	return l
 }
 
 func (p *Identity) field2Length() int {
 	l := 0
-	if p.IsSetAddress() {
-		l += bthrift.Binary.FieldBeginLength("address", thrift.STRING, 2)
-		l += bthrift.Binary.StringLengthNocopy(*p.Address)
+	l += bthrift.Binary.FieldBeginLength("address", thrift.STRING, 2)
+	l += bthrift.Binary.StringLengthNocopy(p.Address)
 
-		l += bthrift.Binary.FieldEndLength()
-	}
+	l += bthrift.Binary.FieldEndLength()
 	return l
 }
 
 func (p *Identity) field3Length() int {
 	l := 0
-	if p.IsSetIsAdmin() {
-		l += bthrift.Binary.FieldBeginLength("isAdmin", thrift.I32, 3)
-		l += bthrift.Binary.I32Length(*p.IsAdmin)
+	l += bthrift.Binary.FieldBeginLength("isAdmin", thrift.I32, 3)
+	l += bthrift.Binary.I32Length(p.IsAdmin)
 
-		l += bthrift.Binary.FieldEndLength()
-	}
+	l += bthrift.Binary.FieldEndLength()
 	return l
 }
 

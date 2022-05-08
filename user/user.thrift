@@ -1,9 +1,9 @@
 namespace go user
 
 struct Identity {
-	1: optional i32 userId
-	2: optional string address
-	3: optional i32 isAdmin
+	1: i32 userId
+	2: string address
+	3: i32 isAdmin
 }
 
 struct userInfo {
@@ -11,20 +11,20 @@ struct userInfo {
 	2: string userName
 	3: string passwd
 	4: i32 createTime
-	5: optional i32 lastLoginTime
-	6: optional string realName
-	7: optional string email
-	8: optional string lastLoginIp 
-	9: optional string signContent
+	5: i32 lastLoginTime
+	6: string realName
+	7: string email
+	8: string lastLoginIp 
+	9: string signContent
 	10: i32 isAdmin
 }
 
 struct insertUserInfo {
 	1: string userName
 	2: string passwd
-	3: optional string realName
-	4: optional string email
-	5: optional string signContent
+	3: string realName
+	4: string email
+	5: string signContent
 	6: i32 isAdmin
 }
 

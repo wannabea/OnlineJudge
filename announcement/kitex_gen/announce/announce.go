@@ -10,48 +10,33 @@ import (
 )
 
 type Identity struct {
-	UserId  *int32  `thrift:"userId,1" json:"userId,omitempty"`
-	Address *string `thrift:"address,2" json:"address,omitempty"`
-	IsAdmin *int32  `thrift:"isAdmin,3" json:"isAdmin,omitempty"`
+	UserId  int32  `thrift:"userId,1" json:"userId"`
+	Address string `thrift:"address,2" json:"address"`
+	IsAdmin int32  `thrift:"isAdmin,3" json:"isAdmin"`
 }
 
 func NewIdentity() *Identity {
 	return &Identity{}
 }
 
-var Identity_UserId_DEFAULT int32
-
 func (p *Identity) GetUserId() (v int32) {
-	if !p.IsSetUserId() {
-		return Identity_UserId_DEFAULT
-	}
-	return *p.UserId
+	return p.UserId
 }
-
-var Identity_Address_DEFAULT string
 
 func (p *Identity) GetAddress() (v string) {
-	if !p.IsSetAddress() {
-		return Identity_Address_DEFAULT
-	}
-	return *p.Address
+	return p.Address
 }
-
-var Identity_IsAdmin_DEFAULT int32
 
 func (p *Identity) GetIsAdmin() (v int32) {
-	if !p.IsSetIsAdmin() {
-		return Identity_IsAdmin_DEFAULT
-	}
-	return *p.IsAdmin
+	return p.IsAdmin
 }
-func (p *Identity) SetUserId(val *int32) {
+func (p *Identity) SetUserId(val int32) {
 	p.UserId = val
 }
-func (p *Identity) SetAddress(val *string) {
+func (p *Identity) SetAddress(val string) {
 	p.Address = val
 }
-func (p *Identity) SetIsAdmin(val *int32) {
+func (p *Identity) SetIsAdmin(val int32) {
 	p.IsAdmin = val
 }
 
@@ -59,18 +44,6 @@ var fieldIDToName_Identity = map[int16]string{
 	1: "userId",
 	2: "address",
 	3: "isAdmin",
-}
-
-func (p *Identity) IsSetUserId() bool {
-	return p.UserId != nil
-}
-
-func (p *Identity) IsSetAddress() bool {
-	return p.Address != nil
-}
-
-func (p *Identity) IsSetIsAdmin() bool {
-	return p.IsAdmin != nil
 }
 
 func (p *Identity) Read(iprot thrift.TProtocol) (err error) {
@@ -156,7 +129,7 @@ func (p *Identity) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI32(); err != nil {
 		return err
 	} else {
-		p.UserId = &v
+		p.UserId = v
 	}
 	return nil
 }
@@ -165,7 +138,7 @@ func (p *Identity) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.Address = &v
+		p.Address = v
 	}
 	return nil
 }
@@ -174,7 +147,7 @@ func (p *Identity) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI32(); err != nil {
 		return err
 	} else {
-		p.IsAdmin = &v
+		p.IsAdmin = v
 	}
 	return nil
 }
@@ -217,16 +190,14 @@ WriteStructEndError:
 }
 
 func (p *Identity) writeField1(oprot thrift.TProtocol) (err error) {
-	if p.IsSetUserId() {
-		if err = oprot.WriteFieldBegin("userId", thrift.I32, 1); err != nil {
-			goto WriteFieldBeginError
-		}
-		if err := oprot.WriteI32(*p.UserId); err != nil {
-			return err
-		}
-		if err = oprot.WriteFieldEnd(); err != nil {
-			goto WriteFieldEndError
-		}
+	if err = oprot.WriteFieldBegin("userId", thrift.I32, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
 	}
 	return nil
 WriteFieldBeginError:
@@ -236,16 +207,14 @@ WriteFieldEndError:
 }
 
 func (p *Identity) writeField2(oprot thrift.TProtocol) (err error) {
-	if p.IsSetAddress() {
-		if err = oprot.WriteFieldBegin("address", thrift.STRING, 2); err != nil {
-			goto WriteFieldBeginError
-		}
-		if err := oprot.WriteString(*p.Address); err != nil {
-			return err
-		}
-		if err = oprot.WriteFieldEnd(); err != nil {
-			goto WriteFieldEndError
-		}
+	if err = oprot.WriteFieldBegin("address", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Address); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
 	}
 	return nil
 WriteFieldBeginError:
@@ -255,16 +224,14 @@ WriteFieldEndError:
 }
 
 func (p *Identity) writeField3(oprot thrift.TProtocol) (err error) {
-	if p.IsSetIsAdmin() {
-		if err = oprot.WriteFieldBegin("isAdmin", thrift.I32, 3); err != nil {
-			goto WriteFieldBeginError
-		}
-		if err := oprot.WriteI32(*p.IsAdmin); err != nil {
-			return err
-		}
-		if err = oprot.WriteFieldEnd(); err != nil {
-			goto WriteFieldEndError
-		}
+	if err = oprot.WriteFieldBegin("isAdmin", thrift.I32, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.IsAdmin); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
 	}
 	return nil
 WriteFieldBeginError:
@@ -298,38 +265,23 @@ func (p *Identity) DeepEqual(ano *Identity) bool {
 	return true
 }
 
-func (p *Identity) Field1DeepEqual(src *int32) bool {
+func (p *Identity) Field1DeepEqual(src int32) bool {
 
-	if p.UserId == src {
-		return true
-	} else if p.UserId == nil || src == nil {
-		return false
-	}
-	if *p.UserId != *src {
+	if p.UserId != src {
 		return false
 	}
 	return true
 }
-func (p *Identity) Field2DeepEqual(src *string) bool {
+func (p *Identity) Field2DeepEqual(src string) bool {
 
-	if p.Address == src {
-		return true
-	} else if p.Address == nil || src == nil {
-		return false
-	}
-	if strings.Compare(*p.Address, *src) != 0 {
+	if strings.Compare(p.Address, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *Identity) Field3DeepEqual(src *int32) bool {
+func (p *Identity) Field3DeepEqual(src int32) bool {
 
-	if p.IsAdmin == src {
-		return true
-	} else if p.IsAdmin == nil || src == nil {
-		return false
-	}
-	if *p.IsAdmin != *src {
+	if p.IsAdmin != src {
 		return false
 	}
 	return true

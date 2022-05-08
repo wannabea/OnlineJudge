@@ -13,7 +13,7 @@ import (
 // ApiImpl implements the last service interface defined in the IDL.
 type ApiImpl struct{}
 
-func (s *ApiImpl) GetAnnouncementById(ctx context.Context, id int32) (resp *AnnounceResponse, err error) {
+func (s *ApiImpl) GetAnnouncementById(ctx context.Context, id int32) (resp *AnnounceInfo, err error) {
 	c, err := announce.NewClient("announce", client.WithHostPorts("0.0.0.0:9091"))
 	if err != nil {
 		log.Fatal(err)

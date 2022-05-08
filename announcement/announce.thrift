@@ -1,9 +1,9 @@
 namespace go announce
 
 struct Identity {
-	1: optional i32 userId
-	2: optional string address
-	3: optional i32 isAdmin
+	1: i32 userId
+	2: string address
+	3: i32 isAdmin
 }
 
 struct AnnounceRequest {

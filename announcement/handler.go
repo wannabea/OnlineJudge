@@ -95,7 +95,7 @@ func (s *ApiImpl) GetAllAnnouncements(ctx context.Context) (resp []*announce.Ann
 
 // InsertAnnouncement implements the ApiImpl interface.
 func (s *ApiImpl) InsertAnnouncement(ctx context.Context, info *announce.UpdateAnouncementRequest, idt *announce.Identity) (resp int32, err error) {
-	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+	if idt.IsAdmin != int32(1) {
 		log.Println("[ERROR] have no access")
 		return 0, nil
 	}
@@ -116,7 +116,7 @@ func (s *ApiImpl) InsertAnnouncement(ctx context.Context, info *announce.UpdateA
 
 // UpdateAnnouncement implements the ApiImpl interface.
 func (s *ApiImpl) UpdateAnnouncement(ctx context.Context, announceId int32, info *announce.UpdateAnouncementRequest, idt *announce.Identity) (resp int32, err error) {
-	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+	if idt.IsAdmin != int32(1) {
 		log.Println("[ERROR] have no access")
 		return 0, nil
 	}
@@ -137,7 +137,7 @@ func (s *ApiImpl) UpdateAnnouncement(ctx context.Context, announceId int32, info
 
 // DeleteAnnouncement implements the ApiImpl interface.
 func (s *ApiImpl) DeleteAnnouncement(ctx context.Context, id int32, idt *announce.Identity) (resp int32, err error) {
-	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+	if idt.IsAdmin != int32(1) {
 		log.Println("[ERROR] have no access")
 		return 0, nil
 	}
@@ -159,7 +159,7 @@ func (s *ApiImpl) DeleteAnnouncement(ctx context.Context, id int32, idt *announc
 
 // HideAnnouncement implements the ApiImpl interface.
 func (s *ApiImpl) HideAnnouncement(ctx context.Context, op int32, idt *announce.Identity) (resp int32, err error) {
-	if *idt.IsAdmin != int32(1) || idt.UserId == nil {
+	if idt.IsAdmin != int32(1) {
 		log.Println("[ERROR] have no access")
 		return 0, nil
 	}

@@ -9,6 +9,284 @@ import (
 	"strings"
 )
 
+type Identity struct {
+	UserId  int32  `thrift:"userId,1" json:"userId"`
+	Address string `thrift:"address,2" json:"address"`
+	IsAdmin int32  `thrift:"isAdmin,3" json:"isAdmin"`
+}
+
+func NewIdentity() *Identity {
+	return &Identity{}
+}
+
+func (p *Identity) GetUserId() (v int32) {
+	return p.UserId
+}
+
+func (p *Identity) GetAddress() (v string) {
+	return p.Address
+}
+
+func (p *Identity) GetIsAdmin() (v int32) {
+	return p.IsAdmin
+}
+func (p *Identity) SetUserId(val int32) {
+	p.UserId = val
+}
+func (p *Identity) SetAddress(val string) {
+	p.Address = val
+}
+func (p *Identity) SetIsAdmin(val int32) {
+	p.IsAdmin = val
+}
+
+var fieldIDToName_Identity = map[int16]string{
+	1: "userId",
+	2: "address",
+	3: "isAdmin",
+}
+
+func (p *Identity) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_Identity[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *Identity) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+
+func (p *Identity) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Address = v
+	}
+	return nil
+}
+
+func (p *Identity) ReadField3(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.IsAdmin = v
+	}
+	return nil
+}
+
+func (p *Identity) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("Identity"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *Identity) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("userId", thrift.I32, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *Identity) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("address", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Address); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *Identity) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("isAdmin", thrift.I32, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.IsAdmin); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *Identity) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("Identity(%+v)", *p)
+}
+
+func (p *Identity) DeepEqual(ano *Identity) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.UserId) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Address) {
+		return false
+	}
+	if !p.Field3DeepEqual(ano.IsAdmin) {
+		return false
+	}
+	return true
+}
+
+func (p *Identity) Field1DeepEqual(src int32) bool {
+
+	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *Identity) Field2DeepEqual(src string) bool {
+
+	if strings.Compare(p.Address, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *Identity) Field3DeepEqual(src int32) bool {
+
+	if p.IsAdmin != src {
+		return false
+	}
+	return true
+}
+
 type AnnounceRequest struct {
 	AnnounceId int32 `thrift:"announce_id,1" json:"announce_id"`
 }
@@ -169,7 +447,7 @@ func (p *AnnounceRequest) Field1DeepEqual(src int32) bool {
 	return true
 }
 
-type AnnounceResponse struct {
+type AnnounceInfo struct {
 	AnnounceId     int32  `thrift:"announceId,1" json:"announceId"`
 	Title          string `thrift:"title,2" json:"title"`
 	UserName       string `thrift:"userName,3" json:"userName"`
@@ -178,53 +456,53 @@ type AnnounceResponse struct {
 	LastUpdateTime string `thrift:"last_update_time,6" json:"last_update_time"`
 }
 
-func NewAnnounceResponse() *AnnounceResponse {
-	return &AnnounceResponse{}
+func NewAnnounceInfo() *AnnounceInfo {
+	return &AnnounceInfo{}
 }
 
-func (p *AnnounceResponse) GetAnnounceId() (v int32) {
+func (p *AnnounceInfo) GetAnnounceId() (v int32) {
 	return p.AnnounceId
 }
 
-func (p *AnnounceResponse) GetTitle() (v string) {
+func (p *AnnounceInfo) GetTitle() (v string) {
 	return p.Title
 }
 
-func (p *AnnounceResponse) GetUserName() (v string) {
+func (p *AnnounceInfo) GetUserName() (v string) {
 	return p.UserName
 }
 
-func (p *AnnounceResponse) GetContent() (v string) {
+func (p *AnnounceInfo) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *AnnounceResponse) GetCreateTime() (v string) {
+func (p *AnnounceInfo) GetCreateTime() (v string) {
 	return p.CreateTime
 }
 
-func (p *AnnounceResponse) GetLastUpdateTime() (v string) {
+func (p *AnnounceInfo) GetLastUpdateTime() (v string) {
 	return p.LastUpdateTime
 }
-func (p *AnnounceResponse) SetAnnounceId(val int32) {
+func (p *AnnounceInfo) SetAnnounceId(val int32) {
 	p.AnnounceId = val
 }
-func (p *AnnounceResponse) SetTitle(val string) {
+func (p *AnnounceInfo) SetTitle(val string) {
 	p.Title = val
 }
-func (p *AnnounceResponse) SetUserName(val string) {
+func (p *AnnounceInfo) SetUserName(val string) {
 	p.UserName = val
 }
-func (p *AnnounceResponse) SetContent(val string) {
+func (p *AnnounceInfo) SetContent(val string) {
 	p.Content = val
 }
-func (p *AnnounceResponse) SetCreateTime(val string) {
+func (p *AnnounceInfo) SetCreateTime(val string) {
 	p.CreateTime = val
 }
-func (p *AnnounceResponse) SetLastUpdateTime(val string) {
+func (p *AnnounceInfo) SetLastUpdateTime(val string) {
 	p.LastUpdateTime = val
 }
 
-var fieldIDToName_AnnounceResponse = map[int16]string{
+var fieldIDToName_AnnounceInfo = map[int16]string{
 	1: "announceId",
 	2: "title",
 	3: "userName",
@@ -233,7 +511,7 @@ var fieldIDToName_AnnounceResponse = map[int16]string{
 	6: "last_update_time",
 }
 
-func (p *AnnounceResponse) Read(iprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -332,7 +610,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_AnnounceResponse[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_AnnounceInfo[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -342,7 +620,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *AnnounceResponse) ReadField1(iprot thrift.TProtocol) error {
+func (p *AnnounceInfo) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI32(); err != nil {
 		return err
 	} else {
@@ -351,7 +629,7 @@ func (p *AnnounceResponse) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *AnnounceResponse) ReadField2(iprot thrift.TProtocol) error {
+func (p *AnnounceInfo) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -360,7 +638,7 @@ func (p *AnnounceResponse) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *AnnounceResponse) ReadField3(iprot thrift.TProtocol) error {
+func (p *AnnounceInfo) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -369,7 +647,7 @@ func (p *AnnounceResponse) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *AnnounceResponse) ReadField4(iprot thrift.TProtocol) error {
+func (p *AnnounceInfo) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -378,7 +656,7 @@ func (p *AnnounceResponse) ReadField4(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *AnnounceResponse) ReadField5(iprot thrift.TProtocol) error {
+func (p *AnnounceInfo) ReadField5(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -387,7 +665,7 @@ func (p *AnnounceResponse) ReadField5(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *AnnounceResponse) ReadField6(iprot thrift.TProtocol) error {
+func (p *AnnounceInfo) ReadField6(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -396,9 +674,9 @@ func (p *AnnounceResponse) ReadField6(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *AnnounceResponse) Write(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("AnnounceResponse"); err != nil {
+	if err = oprot.WriteStructBegin("AnnounceInfo"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -445,7 +723,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *AnnounceResponse) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("announceId", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -462,7 +740,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *AnnounceResponse) writeField2(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) writeField2(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("title", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -479,7 +757,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
-func (p *AnnounceResponse) writeField3(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) writeField3(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("userName", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -496,7 +774,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
-func (p *AnnounceResponse) writeField4(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) writeField4(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("content", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -513,7 +791,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
 }
 
-func (p *AnnounceResponse) writeField5(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) writeField5(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("create_time", thrift.STRING, 5); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -530,7 +808,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
 }
 
-func (p *AnnounceResponse) writeField6(oprot thrift.TProtocol) (err error) {
+func (p *AnnounceInfo) writeField6(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("last_update_time", thrift.STRING, 6); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -547,14 +825,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
 }
 
-func (p *AnnounceResponse) String() string {
+func (p *AnnounceInfo) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("AnnounceResponse(%+v)", *p)
+	return fmt.Sprintf("AnnounceInfo(%+v)", *p)
 }
 
-func (p *AnnounceResponse) DeepEqual(ano *AnnounceResponse) bool {
+func (p *AnnounceInfo) DeepEqual(ano *AnnounceInfo) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -581,42 +859,42 @@ func (p *AnnounceResponse) DeepEqual(ano *AnnounceResponse) bool {
 	return true
 }
 
-func (p *AnnounceResponse) Field1DeepEqual(src int32) bool {
+func (p *AnnounceInfo) Field1DeepEqual(src int32) bool {
 
 	if p.AnnounceId != src {
 		return false
 	}
 	return true
 }
-func (p *AnnounceResponse) Field2DeepEqual(src string) bool {
+func (p *AnnounceInfo) Field2DeepEqual(src string) bool {
 
 	if strings.Compare(p.Title, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *AnnounceResponse) Field3DeepEqual(src string) bool {
+func (p *AnnounceInfo) Field3DeepEqual(src string) bool {
 
 	if strings.Compare(p.UserName, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *AnnounceResponse) Field4DeepEqual(src string) bool {
+func (p *AnnounceInfo) Field4DeepEqual(src string) bool {
 
 	if strings.Compare(p.Content, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *AnnounceResponse) Field5DeepEqual(src string) bool {
+func (p *AnnounceInfo) Field5DeepEqual(src string) bool {
 
 	if strings.Compare(p.CreateTime, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *AnnounceResponse) Field6DeepEqual(src string) bool {
+func (p *AnnounceInfo) Field6DeepEqual(src string) bool {
 
 	if strings.Compare(p.LastUpdateTime, src) != 0 {
 		return false
@@ -624,10 +902,473 @@ func (p *AnnounceResponse) Field6DeepEqual(src string) bool {
 	return true
 }
 
-type Api interface {
-	GetAnnouncementById(ctx context.Context, req *AnnounceRequest) (r *AnnounceResponse, err error)
+type UpdateAnouncementRequest struct {
+	Title          string `thrift:"title,1" json:"title"`
+	UserId         string `thrift:"userId,2" json:"userId"`
+	Content        string `thrift:"content,3" json:"content"`
+	CreateTime     string `thrift:"create_time,4" json:"create_time"`
+	LastUpdateTime string `thrift:"last_update_time,5" json:"last_update_time"`
+	Visible        int32  `thrift:"visible,6" json:"visible"`
+}
 
-	GetAllAnnouncements(ctx context.Context) (r []*AnnounceResponse, err error)
+func NewUpdateAnouncementRequest() *UpdateAnouncementRequest {
+	return &UpdateAnouncementRequest{}
+}
+
+func (p *UpdateAnouncementRequest) GetTitle() (v string) {
+	return p.Title
+}
+
+func (p *UpdateAnouncementRequest) GetUserId() (v string) {
+	return p.UserId
+}
+
+func (p *UpdateAnouncementRequest) GetContent() (v string) {
+	return p.Content
+}
+
+func (p *UpdateAnouncementRequest) GetCreateTime() (v string) {
+	return p.CreateTime
+}
+
+func (p *UpdateAnouncementRequest) GetLastUpdateTime() (v string) {
+	return p.LastUpdateTime
+}
+
+func (p *UpdateAnouncementRequest) GetVisible() (v int32) {
+	return p.Visible
+}
+func (p *UpdateAnouncementRequest) SetTitle(val string) {
+	p.Title = val
+}
+func (p *UpdateAnouncementRequest) SetUserId(val string) {
+	p.UserId = val
+}
+func (p *UpdateAnouncementRequest) SetContent(val string) {
+	p.Content = val
+}
+func (p *UpdateAnouncementRequest) SetCreateTime(val string) {
+	p.CreateTime = val
+}
+func (p *UpdateAnouncementRequest) SetLastUpdateTime(val string) {
+	p.LastUpdateTime = val
+}
+func (p *UpdateAnouncementRequest) SetVisible(val int32) {
+	p.Visible = val
+}
+
+var fieldIDToName_UpdateAnouncementRequest = map[int16]string{
+	1: "title",
+	2: "userId",
+	3: "content",
+	4: "create_time",
+	5: "last_update_time",
+	6: "visible",
+}
+
+func (p *UpdateAnouncementRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField5(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 6:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField6(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_UpdateAnouncementRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Title = v
+	}
+	return nil
+}
+
+func (p *UpdateAnouncementRequest) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+
+func (p *UpdateAnouncementRequest) ReadField3(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Content = v
+	}
+	return nil
+}
+
+func (p *UpdateAnouncementRequest) ReadField4(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.CreateTime = v
+	}
+	return nil
+}
+
+func (p *UpdateAnouncementRequest) ReadField5(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.LastUpdateTime = v
+	}
+	return nil
+}
+
+func (p *UpdateAnouncementRequest) ReadField6(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Visible = v
+	}
+	return nil
+}
+
+func (p *UpdateAnouncementRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("UpdateAnouncementRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
+			goto WriteFieldError
+		}
+		if err = p.writeField5(oprot); err != nil {
+			fieldId = 5
+			goto WriteFieldError
+		}
+		if err = p.writeField6(oprot); err != nil {
+			fieldId = 6
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("title", thrift.STRING, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Title); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("userId", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("content", thrift.STRING, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Content); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) writeField4(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("create_time", thrift.STRING, 4); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.CreateTime); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) writeField5(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("last_update_time", thrift.STRING, 5); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.LastUpdateTime); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) writeField6(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("visible", thrift.I32, 6); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.Visible); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
+}
+
+func (p *UpdateAnouncementRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateAnouncementRequest(%+v)", *p)
+}
+
+func (p *UpdateAnouncementRequest) DeepEqual(ano *UpdateAnouncementRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Title) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.UserId) {
+		return false
+	}
+	if !p.Field3DeepEqual(ano.Content) {
+		return false
+	}
+	if !p.Field4DeepEqual(ano.CreateTime) {
+		return false
+	}
+	if !p.Field5DeepEqual(ano.LastUpdateTime) {
+		return false
+	}
+	if !p.Field6DeepEqual(ano.Visible) {
+		return false
+	}
+	return true
+}
+
+func (p *UpdateAnouncementRequest) Field1DeepEqual(src string) bool {
+
+	if strings.Compare(p.Title, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *UpdateAnouncementRequest) Field2DeepEqual(src string) bool {
+
+	if strings.Compare(p.UserId, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *UpdateAnouncementRequest) Field3DeepEqual(src string) bool {
+
+	if strings.Compare(p.Content, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *UpdateAnouncementRequest) Field4DeepEqual(src string) bool {
+
+	if strings.Compare(p.CreateTime, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *UpdateAnouncementRequest) Field5DeepEqual(src string) bool {
+
+	if strings.Compare(p.LastUpdateTime, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *UpdateAnouncementRequest) Field6DeepEqual(src int32) bool {
+
+	if p.Visible != src {
+		return false
+	}
+	return true
+}
+
+type Api interface {
+	GetAnnouncementById(ctx context.Context, req *AnnounceRequest) (r *AnnounceInfo, err error)
+
+	GetAllAnnouncements(ctx context.Context) (r []*AnnounceInfo, err error)
+
+	InsertAnnouncement(ctx context.Context, info *UpdateAnouncementRequest, idt *Identity) (r int32, err error)
+
+	UpdateAnnouncement(ctx context.Context, announceId int32, info *UpdateAnouncementRequest, idt *Identity) (r int32, err error)
+
+	DeleteAnnouncement(ctx context.Context, id int32, idt *Identity) (r int32, err error)
+
+	HideAnnouncement(ctx context.Context, op int32, idt *Identity) (r int32, err error)
 }
 
 type ApiClient struct {
@@ -656,7 +1397,7 @@ func (p *ApiClient) Client_() thrift.TClient {
 	return p.c
 }
 
-func (p *ApiClient) GetAnnouncementById(ctx context.Context, req *AnnounceRequest) (r *AnnounceResponse, err error) {
+func (p *ApiClient) GetAnnouncementById(ctx context.Context, req *AnnounceRequest) (r *AnnounceInfo, err error) {
 	var _args ApiGetAnnouncementByIdArgs
 	_args.Req = req
 	var _result ApiGetAnnouncementByIdResult
@@ -666,10 +1407,55 @@ func (p *ApiClient) GetAnnouncementById(ctx context.Context, req *AnnounceReques
 	return _result.GetSuccess(), nil
 }
 
-func (p *ApiClient) GetAllAnnouncements(ctx context.Context) (r []*AnnounceResponse, err error) {
+func (p *ApiClient) GetAllAnnouncements(ctx context.Context) (r []*AnnounceInfo, err error) {
 	var _args ApiGetAllAnnouncementsArgs
 	var _result ApiGetAllAnnouncementsResult
 	if err = p.Client_().Call(ctx, "GetAllAnnouncements", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *ApiClient) InsertAnnouncement(ctx context.Context, info *UpdateAnouncementRequest, idt *Identity) (r int32, err error) {
+	var _args ApiInsertAnnouncementArgs
+	_args.Info = info
+	_args.Idt = idt
+	var _result ApiInsertAnnouncementResult
+	if err = p.Client_().Call(ctx, "InsertAnnouncement", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *ApiClient) UpdateAnnouncement(ctx context.Context, announceId int32, info *UpdateAnouncementRequest, idt *Identity) (r int32, err error) {
+	var _args ApiUpdateAnnouncementArgs
+	_args.AnnounceId = announceId
+	_args.Info = info
+	_args.Idt = idt
+	var _result ApiUpdateAnnouncementResult
+	if err = p.Client_().Call(ctx, "UpdateAnnouncement", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *ApiClient) DeleteAnnouncement(ctx context.Context, id int32, idt *Identity) (r int32, err error) {
+	var _args ApiDeleteAnnouncementArgs
+	_args.Id = id
+	_args.Idt = idt
+	var _result ApiDeleteAnnouncementResult
+	if err = p.Client_().Call(ctx, "DeleteAnnouncement", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *ApiClient) HideAnnouncement(ctx context.Context, op int32, idt *Identity) (r int32, err error) {
+	var _args ApiHideAnnouncementArgs
+	_args.Op = op
+	_args.Idt = idt
+	var _result ApiHideAnnouncementResult
+	if err = p.Client_().Call(ctx, "HideAnnouncement", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -697,6 +1483,10 @@ func NewApiProcessor(handler Api) *ApiProcessor {
 	self := &ApiProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
 	self.AddToProcessorMap("GetAnnouncementById", &apiProcessorGetAnnouncementById{handler: handler})
 	self.AddToProcessorMap("GetAllAnnouncements", &apiProcessorGetAllAnnouncements{handler: handler})
+	self.AddToProcessorMap("InsertAnnouncement", &apiProcessorInsertAnnouncement{handler: handler})
+	self.AddToProcessorMap("UpdateAnnouncement", &apiProcessorUpdateAnnouncement{handler: handler})
+	self.AddToProcessorMap("DeleteAnnouncement", &apiProcessorDeleteAnnouncement{handler: handler})
+	self.AddToProcessorMap("HideAnnouncement", &apiProcessorHideAnnouncement{handler: handler})
 	return self
 }
 func (p *ApiProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -736,7 +1526,7 @@ func (p *apiProcessorGetAnnouncementById) Process(ctx context.Context, seqId int
 	iprot.ReadMessageEnd()
 	var err2 error
 	result := ApiGetAnnouncementByIdResult{}
-	var retval *AnnounceResponse
+	var retval *AnnounceInfo
 	if retval, err2 = p.handler.GetAnnouncementById(ctx, args.Req); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetAnnouncementById: "+err2.Error())
 		oprot.WriteMessageBegin("GetAnnouncementById", thrift.EXCEPTION, seqId)
@@ -784,7 +1574,7 @@ func (p *apiProcessorGetAllAnnouncements) Process(ctx context.Context, seqId int
 	iprot.ReadMessageEnd()
 	var err2 error
 	result := ApiGetAllAnnouncementsResult{}
-	var retval []*AnnounceResponse
+	var retval []*AnnounceInfo
 	if retval, err2 = p.handler.GetAllAnnouncements(ctx); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetAllAnnouncements: "+err2.Error())
 		oprot.WriteMessageBegin("GetAllAnnouncements", thrift.EXCEPTION, seqId)
@@ -796,6 +1586,198 @@ func (p *apiProcessorGetAllAnnouncements) Process(ctx context.Context, seqId int
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("GetAllAnnouncements", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type apiProcessorInsertAnnouncement struct {
+	handler Api
+}
+
+func (p *apiProcessorInsertAnnouncement) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := ApiInsertAnnouncementArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("InsertAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := ApiInsertAnnouncementResult{}
+	var retval int32
+	if retval, err2 = p.handler.InsertAnnouncement(ctx, args.Info, args.Idt); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing InsertAnnouncement: "+err2.Error())
+		oprot.WriteMessageBegin("InsertAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = &retval
+	}
+	if err2 = oprot.WriteMessageBegin("InsertAnnouncement", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type apiProcessorUpdateAnnouncement struct {
+	handler Api
+}
+
+func (p *apiProcessorUpdateAnnouncement) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := ApiUpdateAnnouncementArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("UpdateAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := ApiUpdateAnnouncementResult{}
+	var retval int32
+	if retval, err2 = p.handler.UpdateAnnouncement(ctx, args.AnnounceId, args.Info, args.Idt); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing UpdateAnnouncement: "+err2.Error())
+		oprot.WriteMessageBegin("UpdateAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = &retval
+	}
+	if err2 = oprot.WriteMessageBegin("UpdateAnnouncement", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type apiProcessorDeleteAnnouncement struct {
+	handler Api
+}
+
+func (p *apiProcessorDeleteAnnouncement) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := ApiDeleteAnnouncementArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("DeleteAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := ApiDeleteAnnouncementResult{}
+	var retval int32
+	if retval, err2 = p.handler.DeleteAnnouncement(ctx, args.Id, args.Idt); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing DeleteAnnouncement: "+err2.Error())
+		oprot.WriteMessageBegin("DeleteAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = &retval
+	}
+	if err2 = oprot.WriteMessageBegin("DeleteAnnouncement", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type apiProcessorHideAnnouncement struct {
+	handler Api
+}
+
+func (p *apiProcessorHideAnnouncement) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := ApiHideAnnouncementArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("HideAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := ApiHideAnnouncementResult{}
+	var retval int32
+	if retval, err2 = p.handler.HideAnnouncement(ctx, args.Op, args.Idt); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing HideAnnouncement: "+err2.Error())
+		oprot.WriteMessageBegin("HideAnnouncement", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = &retval
+	}
+	if err2 = oprot.WriteMessageBegin("HideAnnouncement", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -982,23 +1964,23 @@ func (p *ApiGetAnnouncementByIdArgs) Field1DeepEqual(src *AnnounceRequest) bool 
 }
 
 type ApiGetAnnouncementByIdResult struct {
-	Success *AnnounceResponse `thrift:"success,0" json:"success,omitempty"`
+	Success *AnnounceInfo `thrift:"success,0" json:"success,omitempty"`
 }
 
 func NewApiGetAnnouncementByIdResult() *ApiGetAnnouncementByIdResult {
 	return &ApiGetAnnouncementByIdResult{}
 }
 
-var ApiGetAnnouncementByIdResult_Success_DEFAULT *AnnounceResponse
+var ApiGetAnnouncementByIdResult_Success_DEFAULT *AnnounceInfo
 
-func (p *ApiGetAnnouncementByIdResult) GetSuccess() (v *AnnounceResponse) {
+func (p *ApiGetAnnouncementByIdResult) GetSuccess() (v *AnnounceInfo) {
 	if !p.IsSetSuccess() {
 		return ApiGetAnnouncementByIdResult_Success_DEFAULT
 	}
 	return p.Success
 }
 func (p *ApiGetAnnouncementByIdResult) SetSuccess(x interface{}) {
-	p.Success = x.(*AnnounceResponse)
+	p.Success = x.(*AnnounceInfo)
 }
 
 var fieldIDToName_ApiGetAnnouncementByIdResult = map[int16]string{
@@ -1069,7 +2051,7 @@ ReadStructEndError:
 }
 
 func (p *ApiGetAnnouncementByIdResult) ReadField0(iprot thrift.TProtocol) error {
-	p.Success = NewAnnounceResponse()
+	p.Success = NewAnnounceInfo()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
 	}
@@ -1143,7 +2125,7 @@ func (p *ApiGetAnnouncementByIdResult) DeepEqual(ano *ApiGetAnnouncementByIdResu
 	return true
 }
 
-func (p *ApiGetAnnouncementByIdResult) Field0DeepEqual(src *AnnounceResponse) bool {
+func (p *ApiGetAnnouncementByIdResult) Field0DeepEqual(src *AnnounceInfo) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false
@@ -1242,23 +2224,23 @@ func (p *ApiGetAllAnnouncementsArgs) DeepEqual(ano *ApiGetAllAnnouncementsArgs) 
 }
 
 type ApiGetAllAnnouncementsResult struct {
-	Success []*AnnounceResponse `thrift:"success,0" json:"success,omitempty"`
+	Success []*AnnounceInfo `thrift:"success,0" json:"success,omitempty"`
 }
 
 func NewApiGetAllAnnouncementsResult() *ApiGetAllAnnouncementsResult {
 	return &ApiGetAllAnnouncementsResult{}
 }
 
-var ApiGetAllAnnouncementsResult_Success_DEFAULT []*AnnounceResponse
+var ApiGetAllAnnouncementsResult_Success_DEFAULT []*AnnounceInfo
 
-func (p *ApiGetAllAnnouncementsResult) GetSuccess() (v []*AnnounceResponse) {
+func (p *ApiGetAllAnnouncementsResult) GetSuccess() (v []*AnnounceInfo) {
 	if !p.IsSetSuccess() {
 		return ApiGetAllAnnouncementsResult_Success_DEFAULT
 	}
 	return p.Success
 }
 func (p *ApiGetAllAnnouncementsResult) SetSuccess(x interface{}) {
-	p.Success = x.([]*AnnounceResponse)
+	p.Success = x.([]*AnnounceInfo)
 }
 
 var fieldIDToName_ApiGetAllAnnouncementsResult = map[int16]string{
@@ -1333,9 +2315,9 @@ func (p *ApiGetAllAnnouncementsResult) ReadField0(iprot thrift.TProtocol) error 
 	if err != nil {
 		return err
 	}
-	p.Success = make([]*AnnounceResponse, 0, size)
+	p.Success = make([]*AnnounceInfo, 0, size)
 	for i := 0; i < size; i++ {
-		_elem := NewAnnounceResponse()
+		_elem := NewAnnounceInfo()
 		if err := _elem.Read(iprot); err != nil {
 			return err
 		}
@@ -1423,7 +2405,7 @@ func (p *ApiGetAllAnnouncementsResult) DeepEqual(ano *ApiGetAllAnnouncementsResu
 	return true
 }
 
-func (p *ApiGetAllAnnouncementsResult) Field0DeepEqual(src []*AnnounceResponse) bool {
+func (p *ApiGetAllAnnouncementsResult) Field0DeepEqual(src []*AnnounceInfo) bool {
 
 	if len(p.Success) != len(src) {
 		return false
@@ -1433,6 +2415,1693 @@ func (p *ApiGetAllAnnouncementsResult) Field0DeepEqual(src []*AnnounceResponse) 
 		if !v.DeepEqual(_src) {
 			return false
 		}
+	}
+	return true
+}
+
+type ApiInsertAnnouncementArgs struct {
+	Info *UpdateAnouncementRequest `thrift:"info,1" json:"info"`
+	Idt  *Identity                 `thrift:"idt,2" json:"idt"`
+}
+
+func NewApiInsertAnnouncementArgs() *ApiInsertAnnouncementArgs {
+	return &ApiInsertAnnouncementArgs{}
+}
+
+var ApiInsertAnnouncementArgs_Info_DEFAULT *UpdateAnouncementRequest
+
+func (p *ApiInsertAnnouncementArgs) GetInfo() (v *UpdateAnouncementRequest) {
+	if !p.IsSetInfo() {
+		return ApiInsertAnnouncementArgs_Info_DEFAULT
+	}
+	return p.Info
+}
+
+var ApiInsertAnnouncementArgs_Idt_DEFAULT *Identity
+
+func (p *ApiInsertAnnouncementArgs) GetIdt() (v *Identity) {
+	if !p.IsSetIdt() {
+		return ApiInsertAnnouncementArgs_Idt_DEFAULT
+	}
+	return p.Idt
+}
+func (p *ApiInsertAnnouncementArgs) SetInfo(val *UpdateAnouncementRequest) {
+	p.Info = val
+}
+func (p *ApiInsertAnnouncementArgs) SetIdt(val *Identity) {
+	p.Idt = val
+}
+
+var fieldIDToName_ApiInsertAnnouncementArgs = map[int16]string{
+	1: "info",
+	2: "idt",
+}
+
+func (p *ApiInsertAnnouncementArgs) IsSetInfo() bool {
+	return p.Info != nil
+}
+
+func (p *ApiInsertAnnouncementArgs) IsSetIdt() bool {
+	return p.Idt != nil
+}
+
+func (p *ApiInsertAnnouncementArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiInsertAnnouncementArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Info = NewUpdateAnouncementRequest()
+	if err := p.Info.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ApiInsertAnnouncementArgs) ReadField2(iprot thrift.TProtocol) error {
+	p.Idt = NewIdentity()
+	if err := p.Idt.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ApiInsertAnnouncementArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("InsertAnnouncement_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("info", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Info.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementArgs) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("idt", thrift.STRUCT, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Idt.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiInsertAnnouncementArgs(%+v)", *p)
+}
+
+func (p *ApiInsertAnnouncementArgs) DeepEqual(ano *ApiInsertAnnouncementArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Info) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Idt) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiInsertAnnouncementArgs) Field1DeepEqual(src *UpdateAnouncementRequest) bool {
+
+	if !p.Info.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *ApiInsertAnnouncementArgs) Field2DeepEqual(src *Identity) bool {
+
+	if !p.Idt.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type ApiInsertAnnouncementResult struct {
+	Success *int32 `thrift:"success,0" json:"success,omitempty"`
+}
+
+func NewApiInsertAnnouncementResult() *ApiInsertAnnouncementResult {
+	return &ApiInsertAnnouncementResult{}
+}
+
+var ApiInsertAnnouncementResult_Success_DEFAULT int32
+
+func (p *ApiInsertAnnouncementResult) GetSuccess() (v int32) {
+	if !p.IsSetSuccess() {
+		return ApiInsertAnnouncementResult_Success_DEFAULT
+	}
+	return *p.Success
+}
+func (p *ApiInsertAnnouncementResult) SetSuccess(x interface{}) {
+	p.Success = x.(*int32)
+}
+
+var fieldIDToName_ApiInsertAnnouncementResult = map[int16]string{
+	0: "success",
+}
+
+func (p *ApiInsertAnnouncementResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ApiInsertAnnouncementResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiInsertAnnouncementResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementResult) ReadField0(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Success = &v
+	}
+	return nil
+}
+
+func (p *ApiInsertAnnouncementResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("InsertAnnouncement_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteI32(*p.Success); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *ApiInsertAnnouncementResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiInsertAnnouncementResult(%+v)", *p)
+}
+
+func (p *ApiInsertAnnouncementResult) DeepEqual(ano *ApiInsertAnnouncementResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiInsertAnnouncementResult) Field0DeepEqual(src *int32) bool {
+
+	if p.Success == src {
+		return true
+	} else if p.Success == nil || src == nil {
+		return false
+	}
+	if *p.Success != *src {
+		return false
+	}
+	return true
+}
+
+type ApiUpdateAnnouncementArgs struct {
+	AnnounceId int32                     `thrift:"announceId,1" json:"announceId"`
+	Info       *UpdateAnouncementRequest `thrift:"info,2" json:"info"`
+	Idt        *Identity                 `thrift:"idt,3" json:"idt"`
+}
+
+func NewApiUpdateAnnouncementArgs() *ApiUpdateAnnouncementArgs {
+	return &ApiUpdateAnnouncementArgs{}
+}
+
+func (p *ApiUpdateAnnouncementArgs) GetAnnounceId() (v int32) {
+	return p.AnnounceId
+}
+
+var ApiUpdateAnnouncementArgs_Info_DEFAULT *UpdateAnouncementRequest
+
+func (p *ApiUpdateAnnouncementArgs) GetInfo() (v *UpdateAnouncementRequest) {
+	if !p.IsSetInfo() {
+		return ApiUpdateAnnouncementArgs_Info_DEFAULT
+	}
+	return p.Info
+}
+
+var ApiUpdateAnnouncementArgs_Idt_DEFAULT *Identity
+
+func (p *ApiUpdateAnnouncementArgs) GetIdt() (v *Identity) {
+	if !p.IsSetIdt() {
+		return ApiUpdateAnnouncementArgs_Idt_DEFAULT
+	}
+	return p.Idt
+}
+func (p *ApiUpdateAnnouncementArgs) SetAnnounceId(val int32) {
+	p.AnnounceId = val
+}
+func (p *ApiUpdateAnnouncementArgs) SetInfo(val *UpdateAnouncementRequest) {
+	p.Info = val
+}
+func (p *ApiUpdateAnnouncementArgs) SetIdt(val *Identity) {
+	p.Idt = val
+}
+
+var fieldIDToName_ApiUpdateAnnouncementArgs = map[int16]string{
+	1: "announceId",
+	2: "info",
+	3: "idt",
+}
+
+func (p *ApiUpdateAnnouncementArgs) IsSetInfo() bool {
+	return p.Info != nil
+}
+
+func (p *ApiUpdateAnnouncementArgs) IsSetIdt() bool {
+	return p.Idt != nil
+}
+
+func (p *ApiUpdateAnnouncementArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiUpdateAnnouncementArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementArgs) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.AnnounceId = v
+	}
+	return nil
+}
+
+func (p *ApiUpdateAnnouncementArgs) ReadField2(iprot thrift.TProtocol) error {
+	p.Info = NewUpdateAnouncementRequest()
+	if err := p.Info.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ApiUpdateAnnouncementArgs) ReadField3(iprot thrift.TProtocol) error {
+	p.Idt = NewIdentity()
+	if err := p.Idt.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ApiUpdateAnnouncementArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("UpdateAnnouncement_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("announceId", thrift.I32, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.AnnounceId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementArgs) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("info", thrift.STRUCT, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Info.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementArgs) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("idt", thrift.STRUCT, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Idt.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiUpdateAnnouncementArgs(%+v)", *p)
+}
+
+func (p *ApiUpdateAnnouncementArgs) DeepEqual(ano *ApiUpdateAnnouncementArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.AnnounceId) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Info) {
+		return false
+	}
+	if !p.Field3DeepEqual(ano.Idt) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiUpdateAnnouncementArgs) Field1DeepEqual(src int32) bool {
+
+	if p.AnnounceId != src {
+		return false
+	}
+	return true
+}
+func (p *ApiUpdateAnnouncementArgs) Field2DeepEqual(src *UpdateAnouncementRequest) bool {
+
+	if !p.Info.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *ApiUpdateAnnouncementArgs) Field3DeepEqual(src *Identity) bool {
+
+	if !p.Idt.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type ApiUpdateAnnouncementResult struct {
+	Success *int32 `thrift:"success,0" json:"success,omitempty"`
+}
+
+func NewApiUpdateAnnouncementResult() *ApiUpdateAnnouncementResult {
+	return &ApiUpdateAnnouncementResult{}
+}
+
+var ApiUpdateAnnouncementResult_Success_DEFAULT int32
+
+func (p *ApiUpdateAnnouncementResult) GetSuccess() (v int32) {
+	if !p.IsSetSuccess() {
+		return ApiUpdateAnnouncementResult_Success_DEFAULT
+	}
+	return *p.Success
+}
+func (p *ApiUpdateAnnouncementResult) SetSuccess(x interface{}) {
+	p.Success = x.(*int32)
+}
+
+var fieldIDToName_ApiUpdateAnnouncementResult = map[int16]string{
+	0: "success",
+}
+
+func (p *ApiUpdateAnnouncementResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ApiUpdateAnnouncementResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiUpdateAnnouncementResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementResult) ReadField0(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Success = &v
+	}
+	return nil
+}
+
+func (p *ApiUpdateAnnouncementResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("UpdateAnnouncement_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteI32(*p.Success); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *ApiUpdateAnnouncementResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiUpdateAnnouncementResult(%+v)", *p)
+}
+
+func (p *ApiUpdateAnnouncementResult) DeepEqual(ano *ApiUpdateAnnouncementResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiUpdateAnnouncementResult) Field0DeepEqual(src *int32) bool {
+
+	if p.Success == src {
+		return true
+	} else if p.Success == nil || src == nil {
+		return false
+	}
+	if *p.Success != *src {
+		return false
+	}
+	return true
+}
+
+type ApiDeleteAnnouncementArgs struct {
+	Id  int32     `thrift:"id,1" json:"id"`
+	Idt *Identity `thrift:"idt,2" json:"idt"`
+}
+
+func NewApiDeleteAnnouncementArgs() *ApiDeleteAnnouncementArgs {
+	return &ApiDeleteAnnouncementArgs{}
+}
+
+func (p *ApiDeleteAnnouncementArgs) GetId() (v int32) {
+	return p.Id
+}
+
+var ApiDeleteAnnouncementArgs_Idt_DEFAULT *Identity
+
+func (p *ApiDeleteAnnouncementArgs) GetIdt() (v *Identity) {
+	if !p.IsSetIdt() {
+		return ApiDeleteAnnouncementArgs_Idt_DEFAULT
+	}
+	return p.Idt
+}
+func (p *ApiDeleteAnnouncementArgs) SetId(val int32) {
+	p.Id = val
+}
+func (p *ApiDeleteAnnouncementArgs) SetIdt(val *Identity) {
+	p.Idt = val
+}
+
+var fieldIDToName_ApiDeleteAnnouncementArgs = map[int16]string{
+	1: "id",
+	2: "idt",
+}
+
+func (p *ApiDeleteAnnouncementArgs) IsSetIdt() bool {
+	return p.Idt != nil
+}
+
+func (p *ApiDeleteAnnouncementArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiDeleteAnnouncementArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementArgs) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Id = v
+	}
+	return nil
+}
+
+func (p *ApiDeleteAnnouncementArgs) ReadField2(iprot thrift.TProtocol) error {
+	p.Idt = NewIdentity()
+	if err := p.Idt.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ApiDeleteAnnouncementArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("DeleteAnnouncement_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("id", thrift.I32, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.Id); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementArgs) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("idt", thrift.STRUCT, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Idt.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiDeleteAnnouncementArgs(%+v)", *p)
+}
+
+func (p *ApiDeleteAnnouncementArgs) DeepEqual(ano *ApiDeleteAnnouncementArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Id) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Idt) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiDeleteAnnouncementArgs) Field1DeepEqual(src int32) bool {
+
+	if p.Id != src {
+		return false
+	}
+	return true
+}
+func (p *ApiDeleteAnnouncementArgs) Field2DeepEqual(src *Identity) bool {
+
+	if !p.Idt.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type ApiDeleteAnnouncementResult struct {
+	Success *int32 `thrift:"success,0" json:"success,omitempty"`
+}
+
+func NewApiDeleteAnnouncementResult() *ApiDeleteAnnouncementResult {
+	return &ApiDeleteAnnouncementResult{}
+}
+
+var ApiDeleteAnnouncementResult_Success_DEFAULT int32
+
+func (p *ApiDeleteAnnouncementResult) GetSuccess() (v int32) {
+	if !p.IsSetSuccess() {
+		return ApiDeleteAnnouncementResult_Success_DEFAULT
+	}
+	return *p.Success
+}
+func (p *ApiDeleteAnnouncementResult) SetSuccess(x interface{}) {
+	p.Success = x.(*int32)
+}
+
+var fieldIDToName_ApiDeleteAnnouncementResult = map[int16]string{
+	0: "success",
+}
+
+func (p *ApiDeleteAnnouncementResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ApiDeleteAnnouncementResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiDeleteAnnouncementResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementResult) ReadField0(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Success = &v
+	}
+	return nil
+}
+
+func (p *ApiDeleteAnnouncementResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("DeleteAnnouncement_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteI32(*p.Success); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *ApiDeleteAnnouncementResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiDeleteAnnouncementResult(%+v)", *p)
+}
+
+func (p *ApiDeleteAnnouncementResult) DeepEqual(ano *ApiDeleteAnnouncementResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiDeleteAnnouncementResult) Field0DeepEqual(src *int32) bool {
+
+	if p.Success == src {
+		return true
+	} else if p.Success == nil || src == nil {
+		return false
+	}
+	if *p.Success != *src {
+		return false
+	}
+	return true
+}
+
+type ApiHideAnnouncementArgs struct {
+	Op  int32     `thrift:"op,1" json:"op"`
+	Idt *Identity `thrift:"idt,2" json:"idt"`
+}
+
+func NewApiHideAnnouncementArgs() *ApiHideAnnouncementArgs {
+	return &ApiHideAnnouncementArgs{}
+}
+
+func (p *ApiHideAnnouncementArgs) GetOp() (v int32) {
+	return p.Op
+}
+
+var ApiHideAnnouncementArgs_Idt_DEFAULT *Identity
+
+func (p *ApiHideAnnouncementArgs) GetIdt() (v *Identity) {
+	if !p.IsSetIdt() {
+		return ApiHideAnnouncementArgs_Idt_DEFAULT
+	}
+	return p.Idt
+}
+func (p *ApiHideAnnouncementArgs) SetOp(val int32) {
+	p.Op = val
+}
+func (p *ApiHideAnnouncementArgs) SetIdt(val *Identity) {
+	p.Idt = val
+}
+
+var fieldIDToName_ApiHideAnnouncementArgs = map[int16]string{
+	1: "op",
+	2: "idt",
+}
+
+func (p *ApiHideAnnouncementArgs) IsSetIdt() bool {
+	return p.Idt != nil
+}
+
+func (p *ApiHideAnnouncementArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiHideAnnouncementArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementArgs) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Op = v
+	}
+	return nil
+}
+
+func (p *ApiHideAnnouncementArgs) ReadField2(iprot thrift.TProtocol) error {
+	p.Idt = NewIdentity()
+	if err := p.Idt.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ApiHideAnnouncementArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("HideAnnouncement_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("op", thrift.I32, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.Op); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementArgs) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("idt", thrift.STRUCT, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Idt.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiHideAnnouncementArgs(%+v)", *p)
+}
+
+func (p *ApiHideAnnouncementArgs) DeepEqual(ano *ApiHideAnnouncementArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Op) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Idt) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiHideAnnouncementArgs) Field1DeepEqual(src int32) bool {
+
+	if p.Op != src {
+		return false
+	}
+	return true
+}
+func (p *ApiHideAnnouncementArgs) Field2DeepEqual(src *Identity) bool {
+
+	if !p.Idt.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type ApiHideAnnouncementResult struct {
+	Success *int32 `thrift:"success,0" json:"success,omitempty"`
+}
+
+func NewApiHideAnnouncementResult() *ApiHideAnnouncementResult {
+	return &ApiHideAnnouncementResult{}
+}
+
+var ApiHideAnnouncementResult_Success_DEFAULT int32
+
+func (p *ApiHideAnnouncementResult) GetSuccess() (v int32) {
+	if !p.IsSetSuccess() {
+		return ApiHideAnnouncementResult_Success_DEFAULT
+	}
+	return *p.Success
+}
+func (p *ApiHideAnnouncementResult) SetSuccess(x interface{}) {
+	p.Success = x.(*int32)
+}
+
+var fieldIDToName_ApiHideAnnouncementResult = map[int16]string{
+	0: "success",
+}
+
+func (p *ApiHideAnnouncementResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ApiHideAnnouncementResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApiHideAnnouncementResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementResult) ReadField0(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Success = &v
+	}
+	return nil
+}
+
+func (p *ApiHideAnnouncementResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("HideAnnouncement_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteI32(*p.Success); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *ApiHideAnnouncementResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ApiHideAnnouncementResult(%+v)", *p)
+}
+
+func (p *ApiHideAnnouncementResult) DeepEqual(ano *ApiHideAnnouncementResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *ApiHideAnnouncementResult) Field0DeepEqual(src *int32) bool {
+
+	if p.Success == src {
+		return true
+	} else if p.Success == nil || src == nil {
+		return false
+	}
+	if *p.Success != *src {
+		return false
 	}
 	return true
 }

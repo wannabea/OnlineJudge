@@ -28,7 +28,7 @@ type announcementFromDb struct {
 	visible        int
 }
 
-func (s *ApiImpl) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest) (resp *announce.AnnounceResponse, err error) {
+func (s *ApiImpl) GetAnnouncementById(ctx context.Context, req *announce.AnnounceRequest) (resp *announce.AnnounceInfo, err error) {
 	var announceItem announcementFromDb
 	sqlStr := "select * from announcements where announce_id=? and visible=1"
 	err = Db.QueryRow(sqlStr, req.AnnounceId).Scan(&announceItem.AnnounceId, &announceItem.Title, &announceItem.UserId, &announceItem.Content, &announceItem.CreateTime, &announceItem.LastUpdateTime, &announceItem.visible)

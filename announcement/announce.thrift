@@ -2,7 +2,6 @@ namespace go announce
 
 struct Identity {
 	1: i32 userId
-	2: string address
 	3: i32 isAdmin
 }
 

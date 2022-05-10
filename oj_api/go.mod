@@ -15,6 +15,7 @@ require (
 	github.com/cloudwego/netpoll v0.2.2 // indirect
 	github.com/cloudwego/netpoll-http2 v0.0.6 // indirect
 	github.com/cloudwego/thriftgo v0.1.7 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect

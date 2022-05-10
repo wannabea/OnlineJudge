@@ -11,10 +11,11 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	GetNameById(ctx context.Context, userId int32, idt *user.Identity, callOptions ...callopt.Option) (r string, err error)
-	GetInfoById(ctx context.Context, userId int32, idt *user.Identity, callOptions ...callopt.Option) (r *user.UserInfo, err error)
-	InsertUser(ctx context.Context, info *user.InsertUserInfo, idt *user.Identity, callOptions ...callopt.Option) (r int32, err error)
-	UpdateUserInfo(ctx context.Context, id int32, info *user.InsertUserInfo, idt *user.Identity, callOptions ...callopt.Option) (r int32, err error)
+	GetNameById(ctx context.Context, userId int32, callOptions ...callopt.Option) (r string, err error)
+	GetInfoById(ctx context.Context, userId int32, callOptions ...callopt.Option) (r *user.UserInfo, err error)
+	GetUserIdByUserName(ctx context.Context, userName string, callOptions ...callopt.Option) (r int32, err error)
+	InsertUser(ctx context.Context, info *user.InsertUserInfo, callOptions ...callopt.Option) (r int32, err error)
+	UpdateUserInfo(ctx context.Context, id int32, info *user.UserInfo, callOptions ...callopt.Option) (r int32, err error)
 	CheckUserName(ctx context.Context, name string, callOptions ...callopt.Option) (r int32, err error)
 }
 
@@ -47,24 +48,29 @@ type kUserClient struct {
 	*kClient
 }
 
-func (p *kUserClient) GetNameById(ctx context.Context, userId int32, idt *user.Identity, callOptions ...callopt.Option) (r string, err error) {
+func (p *kUserClient) GetNameById(ctx context.Context, userId int32, callOptions ...callopt.Option) (r string, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetNameById(ctx, userId, idt)
+	return p.kClient.GetNameById(ctx, userId)
 }
 
-func (p *kUserClient) GetInfoById(ctx context.Context, userId int32, idt *user.Identity, callOptions ...callopt.Option) (r *user.UserInfo, err error) {
+func (p *kUserClient) GetInfoById(ctx context.Context, userId int32, callOptions ...callopt.Option) (r *user.UserInfo, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetInfoById(ctx, userId, idt)
+	return p.kClient.GetInfoById(ctx, userId)
 }
 
-func (p *kUserClient) InsertUser(ctx context.Context, info *user.InsertUserInfo, idt *user.Identity, callOptions ...callopt.Option) (r int32, err error) {
+func (p *kUserClient) GetUserIdByUserName(ctx context.Context, userName string, callOptions ...callopt.Option) (r int32, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.InsertUser(ctx, info, idt)
+	return p.kClient.GetUserIdByUserName(ctx, userName)
 }
 
-func (p *kUserClient) UpdateUserInfo(ctx context.Context, id int32, info *user.InsertUserInfo, idt *user.Identity, callOptions ...callopt.Option) (r int32, err error) {
+func (p *kUserClient) InsertUser(ctx context.Context, info *user.InsertUserInfo, callOptions ...callopt.Option) (r int32, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UpdateUserInfo(ctx, id, info, idt)
+	return p.kClient.InsertUser(ctx, info)
+}
+
+func (p *kUserClient) UpdateUserInfo(ctx context.Context, id int32, info *user.UserInfo, callOptions ...callopt.Option) (r int32, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UpdateUserInfo(ctx, id, info)
 }
 
 func (p *kUserClient) CheckUserName(ctx context.Context, name string, callOptions ...callopt.Option) (r int32, err error) {
